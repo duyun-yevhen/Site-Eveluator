@@ -106,8 +106,6 @@ namespace SiteEvaluating
 			HttpWebRequest myHttwebrequest = (HttpWebRequest)HttpWebRequest.Create(url);
 			myHttwebrequest.Timeout = 10000;
 			HttpWebResponse myHttpWebresponse = (HttpWebResponse)myHttwebrequest.GetResponse();
-			Regex siteReg = new Regex("^(([^:/?#]+):)?(//([^/?#]*))");
-			string main = siteReg.Match(url.AbsoluteUri).Value;
 
 			using (StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true))
 			{
@@ -116,7 +114,7 @@ namespace SiteEvaluating
 				char c;
 				while (true)
 				{
-					pos = site.IndexOf("<a href", pos + 1);
+					pos = site.IndexOf("href", pos + 1);
 					if (pos <= 0)
 						break;
 					int s = site.IndexOf('\'', pos);
@@ -133,7 +131,7 @@ namespace SiteEvaluating
 					Uri temp = new Uri(href, UriKind.RelativeOrAbsolute);
 					if (!temp.IsAbsoluteUri)
 						temp = new Uri(url, temp);
-					if (!crawlingUrls.Contains(temp))
+					if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp) && !crawlingUrls.Contains(temp))
 						crawlingUrls.Add(temp);
 				}
 			}
