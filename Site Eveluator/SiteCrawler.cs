@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using System.Xml;
 
 namespace SiteEvaluating
@@ -21,7 +16,7 @@ namespace SiteEvaluating
 	/// </summary>
 	public class SiteCrawler
 	{
-		
+
 		public Uri StartUrl { get; private set; }
 		public List<Uri> crawlingUrls;
 		public List<Uri> sitemapUrls;
@@ -38,7 +33,7 @@ namespace SiteEvaluating
 			crawlingUrls = new List<Uri>();
 			sitemapUrls = new List<Uri>();
 			FindChildrenUrl(StartUrl);
-			GetSitemap(new Uri("http://" + StartUrl.Host));
+			GetSitemaps(new Uri("http://" + StartUrl.Host));
 			crawlingNotSitemapUrls = new List<Uri>(crawlingUrls.Where(p => !sitemapUrls.Contains(p)));
 			sitemapUrlsNotCrawling = new List<Uri>(sitemapUrls.Where(p => !crawlingUrls.Contains(p)));
 			allUrls = new List<UrlResponseTime>();
@@ -54,7 +49,7 @@ namespace SiteEvaluating
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		public void GetAllResponseTime(int querydDelay, int timeout)
+		public virtual void GetAllResponseTime(int querydDelay, int timeout)
 		{
 			Stopwatch stopwatch;
 			for (int i = 0; i < allUrls.Count; i++)
@@ -65,7 +60,7 @@ namespace SiteEvaluating
 					HttpWebRequest myHttwebrequest = (HttpWebRequest)HttpWebRequest.Create(allUrls[i].url.OriginalString);
 					myHttwebrequest.Timeout = timeout;
 					HttpWebResponse myHttpWebresponse = (HttpWebResponse)myHttwebrequest.GetResponse();
-					
+
 				}
 				catch (Exception e)
 				{
@@ -83,7 +78,7 @@ namespace SiteEvaluating
 		/// Crawling by site and found all childrens url 
 		/// </summary>
 		/// <param name="url"></param>
-		public void FindChildrenUrl(Uri url) 
+		public virtual void FindChildrenUrl(Uri url)
 		{
 			HttpWebRequest myHttwebrequest = (HttpWebRequest)HttpWebRequest.Create(url);
 			myHttwebrequest.Timeout = 10000;
@@ -123,7 +118,7 @@ namespace SiteEvaluating
 		/// Get all Url from sitemaps if in exist
 		/// </summary>
 		/// <param name="hostUrl"></param>
-		public void GetSitemap(Uri hostUrl)
+		public virtual void GetSitemaps(Uri hostUrl)
 		{
 			HttpWebRequest myHttwebrequest = (HttpWebRequest)HttpWebRequest.Create(hostUrl + "robots.txt");
 			myHttwebrequest.Timeout = 10000;
@@ -136,7 +131,7 @@ namespace SiteEvaluating
 				while (true)
 				{
 					s = site.IndexOf("Sitemap", l) + 9;
-					if (s > 8 )
+					if (s > 8)
 					{
 						l = site.IndexOf('\n', s);
 						if (l > 0)
@@ -147,7 +142,7 @@ namespace SiteEvaluating
 							break;
 					}
 					else
-						break;			
+						break;
 				}
 			}
 
@@ -170,7 +165,7 @@ namespace SiteEvaluating
 									sitemapUrls.Add(new Uri(node["loc"].InnerText));
 						}
 						else if (map.ToString().Contains(".txt"))
-						{ 
+						{
 							using (StreamReader unzip = new StreamReader(gZipStream))
 								while (!unzip.EndOfStream)
 								{
@@ -179,7 +174,7 @@ namespace SiteEvaluating
 								}
 						}
 					}
-					else if(map.ToString().EndsWith(".xml"))
+					else if (map.ToString().EndsWith(".xml"))
 					{
 						XmlDocument doc = new XmlDocument();
 						doc.Load(strm);
@@ -188,7 +183,7 @@ namespace SiteEvaluating
 							if (node["loc"] != null)
 								sitemapUrls.Add(new Uri(node["loc"].InnerText));
 					}
-					else if(map.ToString().EndsWith(".txt"))
+					else if (map.ToString().EndsWith(".txt"))
 					{
 						while (!strm.EndOfStream)
 							sitemapUrls.Add(new Uri(strm.ReadLine()));
