@@ -19,37 +19,19 @@ namespace SiteEvaluating
 	/// Class for evaluating a website performance by crawling page.
 	/// Also get response time for all found Url.
 	/// </summary>
-	public class SiteEvaluating
+	public class SiteCrawler
 	{
-		/// <summary>
-		/// helper class for storing url and response time
-		/// </summary>
-		public class UrlTimes: IComparable<UrlTimes>
-		{
-			public Uri url;
-			public long responseTime;
-			public int CompareTo(UrlTimes other) => this.responseTime.CompareTo(other.responseTime);
-			public static implicit operator UrlTimes(Uri uri)
-			{
-				return new UrlTimes
-				{
-					responseTime = 0,
-					url = uri
-				};
-			}
-		}
-
-
+		
 		public Uri StartUrl { get; private set; }
 		public List<Uri> crawlingUrls;
 		public List<Uri> sitemapUrls;
 		public List<Uri> crawlingNotSitemapUrls;
 		public List<Uri> sitemapUrlsNotCrawling;
-		public List<UrlTimes> allUrls;
+		public List<UrlResponseTime> allUrls;
 
 		private List<Uri> sitemaps;
 
-		public SiteEvaluating(Uri url)
+		public SiteCrawler(Uri url)
 		{
 			StartUrl = url;
 			sitemaps = new List<Uri>();
@@ -59,7 +41,7 @@ namespace SiteEvaluating
 			GetSitemap(new Uri("http://" + StartUrl.Host));
 			crawlingNotSitemapUrls = new List<Uri>(crawlingUrls.Where(p => !sitemapUrls.Contains(p)));
 			sitemapUrlsNotCrawling = new List<Uri>(sitemapUrls.Where(p => !crawlingUrls.Contains(p)));
-			allUrls = new List<UrlTimes>();
+			allUrls = new List<UrlResponseTime>();
 			foreach (var i in crawlingUrls)
 				allUrls.Add(i);
 			foreach (var i in sitemapUrlsNotCrawling)

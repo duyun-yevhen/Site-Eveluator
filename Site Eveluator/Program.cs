@@ -12,7 +12,7 @@ namespace SiteEvaluating
 				Uri url;
 				if(Uri.TryCreate(Console.ReadLine(), UriKind.Absolute,out url))
 				{
-					SiteEvaluating site = new SiteEvaluating(url);
+					SiteCrawler site = new SiteCrawler(url);
 					Console.Clear();
 					if(site.sitemapUrls.Count > 0)
 					{
