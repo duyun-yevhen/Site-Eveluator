@@ -23,7 +23,7 @@ namespace WebCrawler
 		public List<UrlResponseTime> allUrlsTimes;
 
 		private List<Uri> sitemaps;
-		private SiteParser siteParser;
+		private SiteParser siteParser = new SiteParser();
 		
 		public SiteCrawler()
 		{
@@ -33,11 +33,9 @@ namespace WebCrawler
 		public SiteCrawler(Uri url)
 		{
 			StartUrl = url;
-			sitemaps = new List<Uri>();
-			crawlingUrls = new List<Uri>();
-			sitemapUrls = new List<Uri>();
-			FindChildrenUrl(StartUrl);
-			GetSitemaps(new Uri("http://" + StartUrl.Host));
+			crawlingUrls = FindChildrenUrl(StartUrl);
+			sitemaps = GetSitemaps(new Uri("http://" + StartUrl.Host));
+			sitemapUrls = GetSitesFromSitemaps(sitemaps);
 			crawlingNotSitemapUrls = new List<Uri>(crawlingUrls.Where(p => !sitemapUrls.Contains(p)));
 			sitemapUrlsNotCrawling = new List<Uri>(sitemapUrls.Where(p => !crawlingUrls.Contains(p)));
 			allUrlsTimes = new List<UrlResponseTime>();
@@ -50,9 +48,16 @@ namespace WebCrawler
 
 		public virtual HttpWebResponse GetResponse(Uri url, int timeout = 10000)
 		{
-			HttpWebRequest myHttwebrequest = (HttpWebRequest)WebRequest.Create(url);
-			myHttwebrequest.Timeout = timeout;
-			return (HttpWebResponse)myHttwebrequest.GetResponse();
+			try
+			{
+				HttpWebRequest myHttwebrequest = (HttpWebRequest)WebRequest.Create(url);
+				myHttwebrequest.Timeout = timeout;
+				return (HttpWebResponse)myHttwebrequest.GetResponse();
+			}
+			catch(WebException e)
+			{
+				return (HttpWebResponse)e.Response;
+			}
 		}
 
 		/// <summary>
@@ -83,16 +88,16 @@ namespace WebCrawler
 		{
 			HttpWebResponse myHttpWebresponse = GetResponse(url);
 			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true);
-			return siteParser.ParseAllUrl(strm.ReadToEnd());
+			return siteParser.ParseAllSite(strm.ReadToEnd(), url);
 		}
 
 
-		public virtual Uri GetAbsoluteUrl(Uri baseUrl, Uri relativeUrl)
-		{
-			if (relativeUrl.IsAbsoluteUri)
-				return relativeUrl;
-			return new Uri(relativeUrl, baseUrl);
-		}
+		//public virtual Uri GetAbsoluteUrl(Uri baseUrl, Uri relativeUrl)
+		//{
+		//	if (relativeUrl.IsAbsoluteUri)
+		//		return relativeUrl;
+		//	return new Uri(relativeUrl, baseUrl);
+		//}
 
 		/// <summary>
 		/// Get all Url from sitemaps if in exist

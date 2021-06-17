@@ -6,7 +6,7 @@ namespace WebCrawler
 {
 	public class SiteParser
 	{
-		public virtual List<Uri> ParseAllUrl(string site)
+		public virtual List<Uri> ParseAllSite(string site, Uri siteUrl)
 		{
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;
@@ -27,7 +27,7 @@ namespace WebCrawler
 				l = site.IndexOf(c, s);
 				string href = site[s..l];
 
-				Uri temp = new Uri(href, UriKind.RelativeOrAbsolute);
+				Uri temp = new Uri(siteUrl, href);
 
 				if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp) && !urlList.Contains(temp))
 					urlList.Add(temp);
