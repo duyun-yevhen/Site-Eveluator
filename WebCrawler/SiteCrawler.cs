@@ -34,7 +34,7 @@ namespace WebCrawler
 		{
 			StartUrl = url;
 			crawlingUrls = FindChildrenUrl(StartUrl);
-			sitemaps = GetSitemaps(new Uri("http://" + StartUrl.Host));
+			sitemaps = GetSitemaps(new Uri("http://"+ StartUrl.Host));
 			sitemapUrls = GetSitesFromSitemaps(sitemaps);
 			crawlingNotSitemapUrls = new List<Uri>(crawlingUrls.Where(p => !sitemapUrls.Contains(p)));
 			sitemapUrlsNotCrawling = new List<Uri>(sitemapUrls.Where(p => !crawlingUrls.Contains(p)));

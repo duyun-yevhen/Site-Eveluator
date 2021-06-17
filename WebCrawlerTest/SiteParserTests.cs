@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Xunit;
+using System.Xml;
 
 namespace WebCrawler.Tests
 {
@@ -23,7 +24,7 @@ namespace WebCrawler.Tests
 							"<p><a href=\"http://test.com/dog.html\">Собаки</a></p>\n" +
 							"<p><a href=\"cat.html\">Кошки</a></p>\n" +
 							"</body>\n" +
-							"</html>\n";
+							"</html>";
 			List<Uri> expected = new List<Uri>
 			{
 				new Uri("http://test.com/dog.html"),
@@ -48,7 +49,7 @@ namespace WebCrawler.Tests
 								"User-agent: *\n" +
 								"Allow: /\n" +
 								"Sitemap: http://www.example.com/sitemap.xml \n" +
-								"Sitemap: http://www.example.com/sitemap.txt \n";
+								"Sitemap: http://www.example.com/sitemap.txt";
 
 			List<Uri> expected = new List<Uri>
 			{
@@ -62,21 +63,13 @@ namespace WebCrawler.Tests
 			Assert.Equal(expected, actual);
 		}
 
-		public void SiteParser_ParseAllHtmlDocumentsFromSite()
+		[Fact]
+		public void SiteParser_ParseUrlFromSitemapTXT()
 		{
 			// arrange
 			var parser = new SiteParser();
-			string site = "<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n" +
-							"<html>\n" +
-							"<head>\n" +
-							"<meta http-equiv=\"content - type\" content=\"text / html; charset = utf - 8\">\n" +
-							"<title>Ссылки на странице</title>\n" +
-							"</head>\n" +
-							"<body>\n" +
-							"<p><a href=\"http://test.com/dog.html\">Собаки</a></p>\n" +
-							"<p><a href=\"cat.html\">Кошки</a></p>\n" +
-							"</body>\n" +
-							"</html>\n";
+			string siteMap = "http://test.com/dog.html \n" +
+							"http://test.com/cat.html";
 			List<Uri> expected = new List<Uri>
 			{
 				new Uri("http://test.com/dog.html"),
@@ -84,7 +77,40 @@ namespace WebCrawler.Tests
 			};
 
 			// act
-			List<Uri> actual = parser.ParseAllSite(site, new Uri("http://test.com/"));
+			List<Uri> actual = parser.GetUrlFromSitemapTXT(siteMap);
+			// assert
+			Assert.Equal(expected, actual);
+		}
+
+		[Fact]
+		public void SiteParser_ParseUrlFromSitemapXml()
+		{
+			// arrange
+			var parser = new SiteParser();
+			string siteMap = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n" +
+								"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
+								"<url>\n" +
+								"<loc>http://www.example.com/sitemap.xml</loc>\n" +
+								"<lastmod>2015-10-03</lastmod>\n" +
+								"<changefreq>monthly</changefreq>\n" +
+								"<priority>1.0</priority>\n" +
+								"</url>\n" +
+								"<url>\n" +
+								"<loc>http://www.example.com/sitemap.txt</loc>\n" +
+								"<lastmod>2018-10-03</lastmod>\n" +
+								"<changefreq>monthly</changefreq>\n" +
+								"<priority>1.0</priority>\n" +
+								"</url>\n" +
+								"</urlset>";
+
+			List<Uri> expected = new List<Uri>
+			{
+				new Uri("http://www.example.com/sitemap.xml"),
+				new Uri("http://www.example.com/sitemap.txt"),
+			};
+
+			// act
+			List<Uri> actual = parser.GetUrlFromSitemapXML(siteMap);
 			// assert
 			Assert.Equal(expected, actual);
 		}
