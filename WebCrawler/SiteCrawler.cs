@@ -43,7 +43,7 @@ namespace WebCrawler
 				allUrlsTimes.Add(i);
 			foreach (var i in sitemapUrlsNotCrawling)
 				allUrlsTimes.Add(i);
-			GetAllResponseTime(500, 10000);
+			GetAllResponseTime(300, 1000);
 		}
 
 		public virtual HttpWebResponse GetResponse(Uri url, int timeout = 10000)
@@ -56,7 +56,7 @@ namespace WebCrawler
 			}
 			catch(WebException e)
 			{
-				return null;
+				return (HttpWebResponse)e.Response;
 			}
 		}
 
@@ -71,9 +71,9 @@ namespace WebCrawler
 			for (int i = 0; i < allUrlsTimes.Count; i++)
 			{
 				stopwatch = Stopwatch.StartNew();
-				GetResponse(allUrlsTimes[i].url);
+				var response = GetResponse(allUrlsTimes[i].url);
 				stopwatch.Stop();
-				Console.WriteLine($"{i}/{allUrlsTimes.Count}");
+				Console.WriteLine($"{i}/{allUrlsTimes.Count} {response.StatusCode} \n{allUrlsTimes[i].url}");
 				allUrlsTimes[i].responseTime = stopwatch.ElapsedMilliseconds;
 				Thread.Sleep(querydDelay);
 			}
@@ -97,7 +97,6 @@ namespace WebCrawler
 		/// <param name="url"></param>
 		public virtual List<Uri> GetSitemaps(Uri url)
 		{
-			//List<Uri> sitemaps = new List<Uri>();
 			HttpWebResponse myHttpWebresponse = GetResponse(new Uri(url + "robots.txt"));
 			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(),true);
 			return siteParser.GetSitemapFromRobotsTxt(strm.ReadToEnd());

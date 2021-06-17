@@ -97,12 +97,12 @@ namespace WebCrawler.Tests
 								"<changefreq>monthly</changefreq>\n" +
 								"<priority>1.0</priority>\n" +
 								"</url>\n" +
-								"<url>\n" +
+								"<sitemap>\n" +
 								"<loc>http://www.example.com/sitemap.txt</loc>\n" +
 								"<lastmod>2018-10-03</lastmod>\n" +
 								"<changefreq>monthly</changefreq>\n" +
 								"<priority>1.0</priority>\n" +
-								"</url>\n" +
+								"</sitemap>\n" +
 								"</urlset>";
 
 			List<Uri> expected = new List<Uri>

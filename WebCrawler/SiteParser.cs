@@ -13,7 +13,7 @@ namespace WebCrawler
 			char c;
 			while (true) //изменить логику а то рандомно работает и тесты доделать бы
 			{
-				pos = site.IndexOf("a href", pos + 1);
+				pos = site.IndexOf("href=", pos + 1);
 				if (pos <= 0)
 					break;
 				int s = site.IndexOf('\'', pos);
@@ -35,13 +35,20 @@ namespace WebCrawler
 			return urlList;
 		}
 
-
 		public virtual List<Uri> GetUrlFromSitemapXML(string siteTXT)
 		{
 			List<Uri> urlList = new List<Uri>();
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(siteTXT);
 			XmlNodeList xmlSitemapList = doc.GetElementsByTagName("url");
+			foreach (XmlNode node in xmlSitemapList)
+			{
+				if (node["loc"] != null)
+				{
+					urlList.Add(new Uri(node["loc"].InnerText));
+				}
+			}
+			xmlSitemapList = doc.GetElementsByTagName("sitemap");
 			foreach (XmlNode node in xmlSitemapList)
 			{
 				if (node["loc"] != null)
