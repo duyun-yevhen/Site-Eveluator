@@ -25,7 +25,7 @@ namespace WebCrawler
 
 				s = site.IndexOf(c, pos) + 1;
 				l = site.IndexOf(c, s);
-				string href = site[s..l];
+				string href = site[s..l];  //иногда крашит гугл ком
 
 				Uri temp = new Uri(siteUrl, href);
 

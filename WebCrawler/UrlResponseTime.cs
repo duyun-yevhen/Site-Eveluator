@@ -14,7 +14,7 @@ namespace WebCrawler
 		{
 			return new UrlResponseTime
 			{
-				responseTime = 0,
+				responseTime = int.MaxValue,
 				url = uri
 			};
 		}

@@ -1,51 +1,57 @@
 using System;
 using System.Net;
 using Xunit;
+using Moq;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace WebCrawler.Tests
 {
 	public class SiteCrawlerTests
 	{
 		[Fact]
-		public void SiteCrawler_FindChildrenUrl()
+		public void SiteCrawler_GetSiteResponse()
 		{
-
 			// arrange
-
+			SiteCrawler crawler = new SiteCrawler();
 			// act
-
+			HttpWebResponse webResponse = crawler.GetResponse(new Uri("http://google.com"),1000);
 			// assert
-			Assert.Equal(HttpStatusCode.OK, new SiteCrawler().GetResponse(new Uri("https://github.com/duyun-yevhen/Site-Eveluator")).StatusCode);
+			Assert.NotNull(webResponse);
 		}
 
 		[Fact]
-		public void SiteCrawler_GetSitemap()
+		public void SiteCrawler_GetAllResponseTime()
 		{
 			// arrange
+			var crawlerMock = new Mock<SiteCrawler>();
+			crawlerMock.Setup(a => a.GetResponse(It.IsAny<Uri>(),It.IsAny<int>())).Returns(new HttpWebResponse());
+			SiteCrawler crawler = crawlerMock.Object;
+			crawler.allUrlsTimes = new List<UrlResponseTime>
+			{
+				new Uri("http://google.com"),
+			};
 
 			// act
-
+			crawler.GetAllResponseTime(0,10);
 			// assert
+			Assert.True(0 < crawler.allUrlsTimes[0].responseTime);
 		}
 
 		[Fact]
-		public void SiteCrawler_GetSiteResponseTime()
+		public void SiteCrawler_FindChildrenUrlDocuments()
 		{
 			// arrange
-
+			SiteCrawler crawler = new SiteCrawler();
+			var parserMock = new Mock<SiteParser>();
+			crawler.siteParser = parserMock.Object;
 			// act
-
-			// assert
+			List<Uri> urlList = crawler.FindChildrenUrl(new Uri("http://google.com"));
+			//assert
+			parserMock.Verify(a => a.ParseAllSite(It.IsNotNull<string>(), It.IsNotNull<Uri>()));
 		}
 
-		[Fact]
-		public void SiteCrawler_GetAllSitesResponseTime()
-		{
-			// arrange
-			
-			// act
 
-			// assert
-		}
 	}
 }

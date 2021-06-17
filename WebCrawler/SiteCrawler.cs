@@ -23,7 +23,7 @@ namespace WebCrawler
 		public List<UrlResponseTime> allUrlsTimes;
 
 		private List<Uri> sitemaps;
-		private SiteParser siteParser = new SiteParser();
+		public SiteParser siteParser = new SiteParser();
 		
 		public SiteCrawler()
 		{
@@ -56,7 +56,7 @@ namespace WebCrawler
 			}
 			catch(WebException e)
 			{
-				return (HttpWebResponse)e.Response;
+				return null;
 			}
 		}
 
@@ -91,14 +91,6 @@ namespace WebCrawler
 			return siteParser.ParseAllSite(strm.ReadToEnd(), url);
 		}
 
-
-		//public virtual Uri GetAbsoluteUrl(Uri baseUrl, Uri relativeUrl)
-		//{
-		//	if (relativeUrl.IsAbsoluteUri)
-		//		return relativeUrl;
-		//	return new Uri(relativeUrl, baseUrl);
-		//}
-
 		/// <summary>
 		/// Get all Url from sitemaps if in exist
 		/// </summary>
@@ -123,26 +115,25 @@ namespace WebCrawler
 				}
 				using (StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true))
 				{
+					string site;
 					if (map.ToString().EndsWith(".gz"))
 					{
 						using GZipStream gZipStream = new GZipStream(strm.BaseStream, CompressionMode.Decompress);
-						using StreamReader site = new StreamReader(gZipStream);
-						if (map.ToString().Contains(".xml"))
-						{
-							sitemapUrls.AddRange(siteParser.GetUrlFromSitemapTXT(site.ReadToEnd()));
-						}
-						else if (map.ToString().Contains(".txt"))
-						{
-							sitemapUrls.AddRange(siteParser.GetUrlFromSitemapXML(site.ReadToEnd()));
-						}
+						using StreamReader siteStream = new StreamReader(gZipStream);
+						site = siteStream.ReadToEnd();
 					}
-					else if (map.ToString().EndsWith(".xml"))
+					else
 					{
-						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapXML(strm.ReadToEnd()));
+						site = strm.ReadToEnd();
 					}
-					else if (map.ToString().EndsWith(".txt"))
+
+					if (map.ToString().EndsWith(".xml"))
 					{
-						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapTXT(strm.ReadToEnd()));
+						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapXML(site));
+					}
+					else
+					{
+						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapTXT(site));
 					}
 				}
 			}
