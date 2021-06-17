@@ -11,9 +11,9 @@ namespace WebCrawler
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;
 			char c;
-			while (true)
+			while (true) //изменить логику а то рандомно работает и тесты доделать бы
 			{
-				pos = site.IndexOf("href", pos + 1);
+				pos = site.IndexOf("a href", pos + 1);
 				if (pos <= 0)
 					break;
 				int s = site.IndexOf('\'', pos);

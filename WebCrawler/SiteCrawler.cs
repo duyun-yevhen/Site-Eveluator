@@ -99,7 +99,7 @@ namespace WebCrawler
 		{
 			//List<Uri> sitemaps = new List<Uri>();
 			HttpWebResponse myHttpWebresponse = GetResponse(new Uri(url + "robots.txt"));
-			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true);
+			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(),true);
 			return siteParser.GetSitemapFromRobotsTxt(strm.ReadToEnd());
 		}
 

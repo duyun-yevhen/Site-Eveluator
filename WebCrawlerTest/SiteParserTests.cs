@@ -23,6 +23,8 @@ namespace WebCrawler.Tests
 							"<body>\n" +
 							"<p><a href=\"http://test.com/dog.html\">Собаки</a></p>\n" +
 							"<p><a href=\"cat.html\">Кошки</a></p>\n" +
+							"<p><link href=\"cat.html\">Кошки</a></p>\n" +
+							"<p><link href=\"http://test.com/dog.html\"/a></p>\n" +
 							"</body>\n" +
 							"</html>";
 			List<Uri> expected = new List<Uri>

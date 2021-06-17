@@ -25,9 +25,7 @@ namespace WebCrawler.Tests
 		public void SiteCrawler_GetAllResponseTime()
 		{
 			// arrange
-			var crawlerMock = new Mock<SiteCrawler>();
-			crawlerMock.Setup(a => a.GetResponse(It.IsAny<Uri>(),It.IsAny<int>())).Returns(new HttpWebResponse());
-			SiteCrawler crawler = crawlerMock.Object;
+			SiteCrawler crawler = new SiteCrawler();
 			crawler.allUrlsTimes = new List<UrlResponseTime>
 			{
 				new Uri("http://google.com"),
@@ -36,7 +34,7 @@ namespace WebCrawler.Tests
 			// act
 			crawler.GetAllResponseTime(0,10);
 			// assert
-			Assert.True(0 < crawler.allUrlsTimes[0].responseTime);
+			Assert.True(0 <= crawler.allUrlsTimes[0].responseTime);
 		}
 
 		[Fact]
@@ -51,7 +49,5 @@ namespace WebCrawler.Tests
 			//assert
 			parserMock.Verify(a => a.ParseAllSite(It.IsNotNull<string>(), It.IsNotNull<Uri>()));
 		}
-
-
 	}
 }
