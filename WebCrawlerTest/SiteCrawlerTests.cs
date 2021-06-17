@@ -1,8 +1,8 @@
 using System;
+using System.Net;
 using Xunit;
-using Moq;
 
-namespace SiteEvaluating.Tests
+namespace WebCrawler.Tests
 {
 	public class SiteCrawlerTests
 	{
@@ -11,10 +11,11 @@ namespace SiteEvaluating.Tests
 		{
 
 			// arrange
-			
+
 			// act
-			
+
 			// assert
+			Assert.Equal(HttpStatusCode.OK, new SiteCrawler().GetResponse(new Uri("https://github.com/duyun-yevhen/Site-Eveluator")).StatusCode);
 		}
 
 		[Fact]

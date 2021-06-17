@@ -3,8 +3,7 @@
 /// <summary>
 /// helper class for storing url and response time
 /// </summary> 
-
-namespace SiteEvaluating
+namespace WebCrawler
 {
 	public class UrlResponseTime : IComparable<UrlResponseTime>
 	{

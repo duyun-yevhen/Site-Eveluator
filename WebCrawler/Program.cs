@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SiteEvaluating
+namespace WebCrawler
 {
 	class Program
 	{
@@ -10,25 +10,25 @@ namespace SiteEvaluating
 			{
 				Console.WriteLine("Enter site URL:");
 				Uri url;
-				if(Uri.TryCreate(Console.ReadLine(), UriKind.Absolute,out url))
+				if (Uri.TryCreate(Console.ReadLine(), UriKind.Absolute, out url))
 				{
 					SiteCrawler site = new SiteCrawler(url);
 					Console.Clear();
-					if(site.sitemapUrls.Count > 0)
+					if (site.sitemapUrls.Count > 0)
 					{
 						Console.WriteLine("Urls FOUNDED IN SITEMAP but not founded after crawling a web site:");
 						for (int i = 0; i < site.sitemapUrlsNotCrawling.Count; i++)
 							Console.WriteLine($"{i + 1}) {site.sitemapUrlsNotCrawling[i]}");
 					}
 					else
-					Console.WriteLine("Couldn't found SITEMAP");
+						Console.WriteLine("Couldn't found SITEMAP");
 					Console.WriteLine("\r\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml");
 					for (int i = 0; i < site.crawlingNotSitemapUrls.Count; i++)
 						Console.WriteLine($"{i + 1}) {site.crawlingNotSitemapUrls[i]}");
 
 					Console.WriteLine("\r\nTiming");
-					for (int i = 0; i < site.allUrls.Count; i++)
-						Console.WriteLine($"{i + 1}) {site.allUrls[i].responseTime} {site.allUrls[i].url}");
+					for (int i = 0; i < site.allUrlsTimes.Count; i++)
+						Console.WriteLine($"{i + 1}) {site.allUrlsTimes[i].responseTime} {site.allUrlsTimes[i].url}");
 
 					Console.WriteLine($"\r\nUrls(html documents) found after crawling a website: {site.crawlingUrls.Count} \r\nUrls found in sitemap: {site.sitemapUrls.Count}");
 				}
