@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Net;
 
 namespace WebCrawler
 {
-	public static class SiteRequest
+	public class SiteRequest
 	{
-		public static List<UrlResponseTime> GetResponseTimes(List<Uri> urls, int querydDelay, int timeout = 10000)
+		public virtual List<UrlResponseTime> GetResponseTimes(List<UrlResponseTime> urls, int querydDelay, int timeout = 10000)
 		{
-			List<UrlResponseTime> urlResponseTimes = new List<UrlResponseTime>();
 			Stopwatch stopwatch;
 			int i = 0;
-			foreach (var site in urls)
+			foreach (var link in urls)
 			{
 				stopwatch = Stopwatch.StartNew();
-				var response = GetResponse(site, timeout);
+				var response = GetResponse(link.Url, timeout);
 				stopwatch.Stop();
-#if DEBUG
-				Console.WriteLine($"{i++}/{urls.Count} {response.StatusCode}\n{site}");
-#endif
+				Console.WriteLine($"{i++}/{urls.Count} {response.StatusCode}\n{link}");
 				System.Threading.Thread.Sleep(querydDelay);
-				urlResponseTimes.Add(new UrlResponseTime() { ResponseTime = stopwatch.ElapsedMilliseconds, Url = site });
+				link.ResponseTime = (int)stopwatch.ElapsedMilliseconds;
 			}
-			return urlResponseTimes;
+			return urls;
 		}
 
-		public static HttpWebResponse GetResponse(Uri url, int timeout = 10000)
+		public virtual HttpWebResponse GetResponse(Uri url, int timeout = 10000)
 		{
 			try
 			{
@@ -38,6 +37,25 @@ namespace WebCrawler
 			{
 				return (HttpWebResponse)e.Response;
 			}
+		}
+
+		public virtual string DownloadSite(Uri url, int timeout = 10000)
+		{
+			HttpWebResponse response = GetResponse(url, timeout);
+			if (response.StatusCode != HttpStatusCode.OK)
+			{
+				return null;
+			}
+
+			using StreamReader strm = new StreamReader(response.GetResponseStream(), true);
+			if (url.ToString().EndsWith(".gz")) 
+			{
+				using GZipStream gZipStream = new GZipStream(strm.BaseStream, CompressionMode.Decompress);
+				using StreamReader siteStream = new StreamReader(gZipStream);
+				return siteStream.ReadToEnd();
+			}
+
+			return strm.ReadToEnd();
 		}
 	}
 }

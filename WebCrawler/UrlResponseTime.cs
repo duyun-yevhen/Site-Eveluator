@@ -5,19 +5,12 @@
 /// </summary> 
 namespace WebCrawler
 {
-	public class UrlResponseTime : IComparable<UrlResponseTime>
+	public class UrlResponseTime
 	{
 		public Uri Url { get; set; }
-		public long ResponseTime { get; set; } = -1;
+		public bool InSitemap { get; set; }
+		public bool InSitePage { get; set; }
 
-		public int CompareTo(UrlResponseTime other) => this.ResponseTime.CompareTo(other.ResponseTime);
-		
-		public static implicit operator UrlResponseTime(Uri uri)
-		{
-			return new UrlResponseTime
-			{
-				Url = uri
-			};
-		}
+		public int ResponseTime { get; set; } = -1;
 	}
 }

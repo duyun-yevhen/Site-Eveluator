@@ -6,29 +6,32 @@ namespace WebCrawler
 {
 	public class SiteParser
 	{
-		public virtual List<Uri> ParseAllSite(string site, Uri siteUrl)
+		public virtual List<Uri> ParseAllLink(string site, Uri siteUrl)
 		{
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;
 			while (true) 
 			{
-				pos = site.IndexOf("<a", ++pos);
+				pos = site.IndexOf("<a ", ++pos);
 				if (pos <= 0)
 				{
 					break;
 				}
 				string link = site[pos..site.IndexOf(">", pos)];
-				link = link.Replace("'", "\"");
+
 				int linkStart = link.IndexOf("href=");
 				if (linkStart < 0)
 				{
 					continue;
 				}
+				link = link.Replace("'", "\"");
 				linkStart = link.IndexOf("\"", linkStart)+1;
 				int linkEnd = link.IndexOf("\"", linkStart+1);
 				string href = link[linkStart..linkEnd].Trim();
-				Uri temp = new Uri(siteUrl, href);
-				if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp))
+				Uri temp = new Uri(href, UriKind.RelativeOrAbsolute);
+				if (!temp.IsAbsoluteUri)
+					temp = new Uri(siteUrl, href);
+				if (temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp)
 				{
 					if (temp != siteUrl && !urlList.Contains(temp))
 					{

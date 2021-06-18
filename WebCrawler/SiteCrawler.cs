@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
 
@@ -13,28 +13,30 @@ namespace WebCrawler
 	/// </summary>
 	public class SiteCrawler
 	{
-		public Uri StartUrl { get; private set; }
-		private SiteParser siteParser = new SiteParser();
 		
-		public SiteCrawler(Uri url)
-		{
-			StartUrl = url;
-		}
+		public SiteParser siteParser = new SiteParser();
+		public SiteRequest siteRequest = new SiteRequest();
 
-		public FullSiteCrawlResults FindAndRequireAllchildrenUrls()
+		public List<UrlResponseTime> FindAndRequireAllchildrenUrls(Uri startUrl)
 		{
-			FullSiteCrawlResults result = new FullSiteCrawlResults();
-			result.UrlsFromCrawling = FindChildrenUrl(StartUrl);
-			List<Uri> sitemaps = GetSitemaps(new Uri("http://" + StartUrl.Host));
-			result.UrlsFromSitemap = GetSitesFromSitemaps(sitemaps);
-			result.CrawlingNotSitemapUrls = new List<Uri>(result.UrlsFromCrawling.Where(p => !result.UrlsFromSitemap.Contains(p)));
-			result.SitemapUrlsNotCrawling = new List<Uri>(result.UrlsFromSitemap.Where(p => !result.UrlsFromCrawling.Contains(p)));
-			List<Uri> allUrls = new List<Uri>();
-			foreach (var i in result.UrlsFromCrawling)
-				allUrls.Add(i);
-			foreach (var i in result.SitemapUrlsNotCrawling)
-				allUrls.Add(i);
-			result.AllUrlsWithResponsetime = GetAllResponseTime(allUrls, 300, 10000);
+			List<Uri> childrenLinks = FindChildrenUrl(startUrl);
+			List<Uri> sitemaps = GetSitemaps(new Uri("http://" + startUrl.Host));
+			List<Uri> sitemapLinks = GetSitesFromSitemaps(sitemaps);
+			
+			List<UrlResponseTime> result = new List<UrlResponseTime>();
+
+			foreach (var link in childrenLinks)
+			{
+				result.Add(new UrlResponseTime() { Url = link , InSitePage = true });
+			}
+
+			List<Uri> childrenLinksNotInSitemap = sitemapLinks.Where(s => !sitemapLinks.Contains(s)).ToList();
+			foreach (var link in sitemapLinks)
+			{
+				result.Add(new UrlResponseTime() { Url = link, InSitemap = true });
+			}
+			GetAllResponseTime(result, 500, 10000);
+			
 			return result;
 		}
 
@@ -43,11 +45,10 @@ namespace WebCrawler
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		private List<UrlResponseTime> GetAllResponseTime(List<Uri> urls, int querydDelay, int timeout)
+		private void GetAllResponseTime(List<UrlResponseTime> urls, int querydDelay = 500, int timeout = 10000)
 		{
-			var allUrlsTimes = SiteRequest.GetResponseTimes(urls, querydDelay, timeout);
-			allUrlsTimes.Sort();
-			return allUrlsTimes;
+			var allUrlsTimes = siteRequest.GetResponseTimes(urls, querydDelay, timeout);
+			allUrlsTimes.Sort((l,r) => l.ResponseTime.CompareTo(r));
 		}
 
 		/// <summary>
@@ -56,9 +57,7 @@ namespace WebCrawler
 		/// <param name="url"></param>
 		private List<Uri> FindChildrenUrl(Uri url)
 		{
-			HttpWebResponse myHttpWebresponse = SiteRequest.GetResponse(url);
-			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true);
-			return siteParser.ParseAllSite(strm.ReadToEnd(), url);
+			return siteParser.GetSitemapFromRobotsTxt(siteRequest.DownloadSite(url));
 		}
 
 		/// <summary>
@@ -67,9 +66,7 @@ namespace WebCrawler
 		/// <param name="url"></param>
 		private List<Uri> GetSitemaps(Uri url)
 		{
-			HttpWebResponse myHttpWebresponse = SiteRequest.GetResponse(new Uri(url + "robots.txt"));
-			using StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true);
-			return siteParser.GetSitemapFromRobotsTxt(strm.ReadToEnd());
+			return siteParser.GetSitemapFromRobotsTxt(siteRequest.DownloadSite(new Uri(url + "robots.txt")));
 		}
 
 		private List<Uri> GetSitesFromSitemaps(List<Uri> sitemaps)
@@ -77,35 +74,17 @@ namespace WebCrawler
 			List<Uri> sitemapUrls = new List<Uri>();
 			foreach (var map in sitemaps)
 			{
-				HttpWebResponse myHttpWebresponse = SiteRequest.GetResponse(map);
-				if (myHttpWebresponse.StatusCode != HttpStatusCode.OK)
+				string site = siteRequest.DownloadSite(map);
+				if (map.ToString().EndsWith(".xml"))
 				{
-					continue;
+					sitemapUrls.AddRange(siteParser.GetUrlFromSitemapXML(site));
 				}
-				using (StreamReader strm = new StreamReader(myHttpWebresponse.GetResponseStream(), true))
+				else
 				{
-					string site;
-					if (map.ToString().EndsWith(".gz"))
-					{
-						using GZipStream gZipStream = new GZipStream(strm.BaseStream, CompressionMode.Decompress);
-						using StreamReader siteStream = new StreamReader(gZipStream);
-						site = siteStream.ReadToEnd();
-					}
-					else
-					{
-						site = strm.ReadToEnd();
-					}
-
-					if (map.ToString().EndsWith(".xml"))
-					{
-						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapXML(site));
-					}
-					else
-					{
-						sitemapUrls.AddRange(siteParser.GetUrlFromSitemapTXT(site));
-					}
+					sitemapUrls.AddRange(siteParser.GetUrlFromSitemapTXT(site));
 				}
 			}
+
 			return sitemapUrls;
 		}
 	}
