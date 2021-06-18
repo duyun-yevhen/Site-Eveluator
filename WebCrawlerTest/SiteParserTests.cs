@@ -19,10 +19,10 @@ namespace WebCrawler.Tests
 							"<link href=\" / manifest ? pwa = webhp\" crossorigin=\"use - credentials\" rel=\"manifest\">" +
 							"<a http-equiv=\"content - type\" content=\"text / html; charset = utf - 8\">\n" +
 							"<title>Ссылки на странице</title>\n" +
-							"<li role =\"none\"><a class=\"EzVRq\" href=\"1.html\">" +
-							"</li><li role=\"none\"><a class=\"EzVRq\" href=\"http://test.com/2.html\" role =\"menuitem\" tabindex=\"-1\">Поиск</a></li>\n" +
+							"<a href =\"http://test.com/\"><a class=\"EzVRq\" href=\"1.html\">" +
+							"</li><li role=\"none\"><a class=\"EzVRq\" href= \" http://test.com/2.html\" role =\"menuitem\" tabindex=\"-1\">Поиск</a></li>\n" +
 							"<p><a href=\"http://test.com/3.html\">Собаки</a></p>\n" +
-							"<p><a href=\"4\">Кошки</a></p>\n" +
+							"<p><a href=\'4\'>Кошки</a></p>\n" +
 							"<p><link href=\"cat.html\">Кошки</a></p>\n" +
 							"<p><link href=\"http://test.com/dog.html\"/a></p>\n" +
 							"</body>\n" +

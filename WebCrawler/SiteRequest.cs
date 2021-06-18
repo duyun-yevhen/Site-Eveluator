@@ -18,7 +18,7 @@ namespace WebCrawler
 				var response = GetResponse(site, timeout);
 				stopwatch.Stop();
 #if DEBUG
-				Console.WriteLine($"{i}/{urls.Count} {response.StatusCode}\n{site}");
+				Console.WriteLine($"{i++}/{urls.Count} {response.StatusCode}\n{site}");
 #endif
 				System.Threading.Thread.Sleep(querydDelay);
 				urlResponseTimes.Add(new UrlResponseTime() { ResponseTime = stopwatch.ElapsedMilliseconds, Url = site });

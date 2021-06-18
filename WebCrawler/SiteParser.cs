@@ -10,23 +10,23 @@ namespace WebCrawler
 		{
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;
-			char c;
-			while (true) //изменить логику а то рандомно работает и тесты доделать бы
+			while (true) 
 			{
-				pos = site.IndexOf("href=", pos + 1);
+				pos = site.IndexOf("<a", ++pos);
 				if (pos <= 0)
+				{
 					break;
-				int s = site.IndexOf('\'', pos);
-				int l = site.IndexOf('\"', pos);
-				if (s != -1 && l != -1)
-					c = s < l ? '\'' : '\"';
-				else
-					c = s > l ? '\'' : '\"';
-
-				s = site.IndexOf(c, pos) + 1;
-				l = site.IndexOf(c, s);
-				string href = site[s..l];  //иногда крашит гугл ком
-
+				}
+				string link = site[pos..site.IndexOf(">", pos)];
+				link = link.Replace("'", "\"");
+				int linkStart = link.IndexOf("href=");
+				if (linkStart < 0)
+				{
+					continue;
+				}
+				linkStart = link.IndexOf("\"", linkStart)+1;
+				int linkEnd = link.IndexOf("\"", linkStart+1);
+				string href = link[linkStart..linkEnd].Trim();
 				Uri temp = new Uri(siteUrl, href);
 				if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp))
 				{
