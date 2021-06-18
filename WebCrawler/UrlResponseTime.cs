@@ -7,15 +7,16 @@ namespace WebCrawler
 {
 	public class UrlResponseTime : IComparable<UrlResponseTime>
 	{
-		public Uri url;
-		public long responseTime;
-		public int CompareTo(UrlResponseTime other) => this.responseTime.CompareTo(other.responseTime);
+		public Uri Url { get; set; }
+		public long ResponseTime { get; set; } = -1;
+
+		public int CompareTo(UrlResponseTime other) => this.ResponseTime.CompareTo(other.ResponseTime);
+		
 		public static implicit operator UrlResponseTime(Uri uri)
 		{
 			return new UrlResponseTime
 			{
-				responseTime = -1,
-				url = uri
+				Url = uri
 			};
 		}
 	}

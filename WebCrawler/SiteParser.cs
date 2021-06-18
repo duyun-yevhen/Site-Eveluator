@@ -28,9 +28,13 @@ namespace WebCrawler
 				string href = site[s..l];  //иногда крашит гугл ком
 
 				Uri temp = new Uri(siteUrl, href);
-
-				if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp) && !urlList.Contains(temp))
-					urlList.Add(temp);
+				if ((temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp))
+				{
+					if (temp != siteUrl && !urlList.Contains(temp))
+					{
+						urlList.Add(temp);
+					}
+				}
 			}
 			return urlList;
 		}
@@ -75,8 +79,8 @@ namespace WebCrawler
 		{
 			List<Uri> sitemaps = new List<Uri>();
 			List<string> lines = new List<string>(site.Split());
-			
-			for(int i = lines.FindIndex(p => p.StartsWith("Sitemap:")); i +1 < lines.Count && i>0; i = lines.FindIndex(i + 1,p => p.StartsWith("Sitemap:")))
+
+			for (int i = lines.FindIndex(p => p.StartsWith("Sitemap:")); i + 1 < lines.Count && i > 0; i = lines.FindIndex(i + 1, p => p.StartsWith("Sitemap:")))
 			{
 				sitemaps.Add(new Uri(lines[i + 1], UriKind.RelativeOrAbsolute));
 			}
