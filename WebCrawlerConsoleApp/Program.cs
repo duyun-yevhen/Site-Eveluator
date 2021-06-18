@@ -48,7 +48,7 @@ namespace WebCrawler.Programm
 							Console.WriteLine($"{i + 1}) {urlsResponseTimes[i].ResponseTime} {urlsResponseTimes[i].Url}");
 					}
 
-					Console.WriteLine($"\r\nUrls(html documents) found after crawling a website: {fullSiteCrawlResults.CrawlingUrls.Count} \r\nUrls found in sitemap: {fullSiteCrawlResults.SitemapUrls.Count}");
+					Console.WriteLine($"\r\nUrls(html documents) found after crawling a website: {fullSiteCrawlResults.UrlsFromCrawling.Count} \r\nUrls found in sitemap: {fullSiteCrawlResults.UrlsFromSitemap.Count}");
 				}
 				else
 					Console.WriteLine("Wrong URL!");

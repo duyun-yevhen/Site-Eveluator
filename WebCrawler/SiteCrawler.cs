@@ -24,13 +24,13 @@ namespace WebCrawler
 		public FullSiteCrawlResults FindAndRequireAllchildrenUrls()
 		{
 			FullSiteCrawlResults result = new FullSiteCrawlResults();
-			result.CrawlingUrls = FindChildrenUrl(StartUrl);
-			result.SitemapUrls = GetSitesFromSitemaps(GetSitemaps(new Uri("http://" + StartUrl.Host)));
-
-			result.CrawlingNotSitemapUrls = new List<Uri>(result.CrawlingUrls.Where(p => !result.SitemapUrls.Contains(p)));
-			result.SitemapUrlsNotCrawling = new List<Uri>(result.SitemapUrls.Where(p => !result.CrawlingUrls.Contains(p)));
+			result.UrlsFromCrawling = FindChildrenUrl(StartUrl);
+			List<Uri> sitemaps = GetSitemaps(new Uri("http://" + StartUrl.Host));
+			result.UrlsFromSitemap = GetSitesFromSitemaps(sitemaps);
+			result.CrawlingNotSitemapUrls = new List<Uri>(result.UrlsFromCrawling.Where(p => !result.UrlsFromSitemap.Contains(p)));
+			result.SitemapUrlsNotCrawling = new List<Uri>(result.UrlsFromSitemap.Where(p => !result.UrlsFromCrawling.Contains(p)));
 			List<Uri> allUrls = new List<Uri>();
-			foreach (var i in result.CrawlingUrls)
+			foreach (var i in result.UrlsFromCrawling)
 				allUrls.Add(i);
 			foreach (var i in result.SitemapUrlsNotCrawling)
 				allUrls.Add(i);
