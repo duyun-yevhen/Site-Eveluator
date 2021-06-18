@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 
 namespace WebCrawler
 {
@@ -13,7 +10,7 @@ namespace WebCrawler
 	/// </summary>
 	public class SiteCrawler
 	{
-		
+
 		public SiteParser siteParser = new SiteParser();
 		public SiteRequest siteRequest = new SiteRequest();
 
@@ -22,21 +19,15 @@ namespace WebCrawler
 			List<Uri> childrenLinks = FindChildrenUrl(startUrl);
 			List<Uri> sitemaps = GetSitemaps(new Uri("http://" + startUrl.Host));
 			List<Uri> sitemapLinks = GetSitesFromSitemaps(sitemaps);
-			
+
 			List<UrlResponseTime> result = new List<UrlResponseTime>();
-
-			foreach (var link in childrenLinks)
+			foreach (var link in childrenLinks.Union(sitemapLinks).ToList())
 			{
-				result.Add(new UrlResponseTime() { Url = link , InSitePage = true });
+				result.Add(new UrlResponseTime() { Url = link, InSitemap = sitemapLinks.Contains(link), InSitePage = childrenLinks.Contains(link) });
 			}
 
-			List<Uri> childrenLinksNotInSitemap = sitemapLinks.Where(s => !sitemapLinks.Contains(s)).ToList();
-			foreach (var link in sitemapLinks)
-			{
-				result.Add(new UrlResponseTime() { Url = link, InSitemap = true });
-			}
 			GetAllResponseTime(result, 500, 10000);
-			
+
 			return result;
 		}
 
@@ -48,7 +39,7 @@ namespace WebCrawler
 		private void GetAllResponseTime(List<UrlResponseTime> urls, int querydDelay = 500, int timeout = 10000)
 		{
 			var allUrlsTimes = siteRequest.GetResponseTimes(urls, querydDelay, timeout);
-			allUrlsTimes.Sort((l,r) => l.ResponseTime.CompareTo(r));
+			allUrlsTimes.Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
 		}
 
 		/// <summary>
@@ -57,7 +48,7 @@ namespace WebCrawler
 		/// <param name="url"></param>
 		private List<Uri> FindChildrenUrl(Uri url)
 		{
-			return siteParser.GetSitemapFromRobotsTxt(siteRequest.DownloadSite(url));
+			return siteParser.ParseAllLink(siteRequest.DownloadSite(url), url);
 		}
 
 		/// <summary>

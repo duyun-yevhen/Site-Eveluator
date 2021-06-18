@@ -10,6 +10,8 @@ namespace WebCrawler.Tests
 {
 	public class SiteCrawlerTests
 	{
+			
+
 		[Fact]
 		public void SiteCrawler_FindAndRequireAllchildrenUrls_SouldBeNotNull()
 		{
