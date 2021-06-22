@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebCrawler.Programm
+namespace WebCrawler.ConsoleApp
 {
 	class Program
 	{

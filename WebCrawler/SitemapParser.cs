@@ -2,47 +2,11 @@
 using System.Collections.Generic;
 using System.Xml;
 
-namespace WebCrawler
+namespace WebCrawler.Logic
 {
-	public class SiteParser
+	public class SitemapParser
 	{
-		public virtual List<Uri> ParseAllLink(string site, Uri siteUrl)
-		{
-			List<Uri> urlList = new List<Uri>();
-			int pos = 0;
-			while (true) 
-			{
-				pos = site.IndexOf("<a ", ++pos);
-				if (pos <= 0)
-				{
-					break;
-				}
-				string link = site[pos..site.IndexOf(">", pos)];
-
-				int linkStart = link.IndexOf("href=");
-				if (linkStart < 0)
-				{
-					continue;
-				}
-				link = link.Replace("'", "\"");
-				linkStart = link.IndexOf("\"", linkStart)+1;
-				int linkEnd = link.IndexOf("\"", linkStart+1);
-				string href = link[linkStart..linkEnd].Trim();
-				Uri temp = new Uri(href, UriKind.RelativeOrAbsolute);
-				if (!temp.IsAbsoluteUri)
-					temp = new Uri(siteUrl, href);
-				if (temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp)
-				{
-					if (temp != siteUrl && !urlList.Contains(temp))
-					{
-						urlList.Add(temp);
-					}
-				}
-			}
-			return urlList;
-		}
-
-		public virtual List<Uri> GetUrlFromSitemapXML(string siteTXT)
+		public virtual List<Uri> GetUrlsFromSitemapXML(string siteTXT)
 		{
 			List<Uri> urlList = new List<Uri>();
 			XmlDocument doc = new XmlDocument();
@@ -66,7 +30,7 @@ namespace WebCrawler
 			return urlList;
 		}
 
-		public virtual List<Uri> GetUrlFromSitemapTXT(string siteXML)
+		public virtual List<Uri> GetUrlsFromSitemapTXT(string siteXML)
 		{
 			string[] sites = siteXML.Split('\n');
 			List<Uri> urlList = new List<Uri>(sites.Length);
@@ -78,7 +42,7 @@ namespace WebCrawler
 			return urlList;
 		}
 
-		public virtual List<Uri> GetSitemapFromRobotsTxt(string site)
+		public virtual List<Uri> GetSitemapsFromRobotsTxt(string site)
 		{
 			List<Uri> sitemaps = new List<Uri>();
 			List<string> lines = new List<string>(site.Split());

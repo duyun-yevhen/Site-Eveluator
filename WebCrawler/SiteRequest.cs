@@ -1,31 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 
-namespace WebCrawler
+namespace WebCrawler.Logic
 {
 	public class SiteRequest
 	{
-		public virtual List<UrlResponseTime> GetResponseTimes(List<UrlResponseTime> urls, int querydDelay, int timeout = 10000)
+		public virtual int GetUrlResponseTime(Uri url, int timeout = 10000)
 		{
 			Stopwatch stopwatch;
-			int i = 0;
-			foreach (var link in urls)
-			{
-				stopwatch = Stopwatch.StartNew();
-				var response = GetResponse(link.Url, timeout);
-				stopwatch.Stop();
-				Console.WriteLine($"{i++}/{urls.Count} {response.StatusCode}\n{link.Url}");
-				System.Threading.Thread.Sleep(querydDelay);
-				link.ResponseTime = (int)stopwatch.ElapsedMilliseconds;
-			}
-			return urls;
+			stopwatch = Stopwatch.StartNew();
+			GetPageResponse(url, timeout);
+			stopwatch.Stop();
+			return (int)stopwatch.ElapsedMilliseconds;
 		}
 
-		public virtual HttpWebResponse GetResponse(Uri url, int timeout = 10000)
+		public virtual HttpWebResponse GetPageResponse(Uri url, int timeout = 10000)
 		{
 			try
 			{
@@ -41,14 +33,14 @@ namespace WebCrawler
 
 		public virtual string DownloadSite(Uri url, int timeout = 10000)
 		{
-			HttpWebResponse response = GetResponse(url, timeout);
+			HttpWebResponse response = GetPageResponse(url, timeout);
 			if (response.StatusCode != HttpStatusCode.OK)
 			{
 				return null;
 			}
 
 			using StreamReader strm = new StreamReader(response.GetResponseStream(), true);
-			if (url.ToString().EndsWith(".gz")) 
+			if (url.ToString().EndsWith(".gz"))
 			{
 				using GZipStream gZipStream = new GZipStream(strm.BaseStream, CompressionMode.Decompress);
 				using StreamReader siteStream = new StreamReader(gZipStream);

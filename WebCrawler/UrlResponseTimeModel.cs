@@ -5,7 +5,7 @@
 /// </summary> 
 namespace WebCrawler
 {
-	public class UrlResponseTime
+	public class UrlResponseTimeModel
 	{
 		public Uri Url { get; set; }
 		public bool InSitemap { get; set; }
