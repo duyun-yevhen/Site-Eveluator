@@ -9,12 +9,18 @@ namespace WebCrawler.Logic
 	/// </summary>
 	public class SitemapCrawler
 	{
-		public SitemapParser parser = new SitemapParser();
-		public SiteRequest siteRequest = new SiteRequest();
+		private readonly SitemapParser _parser = new SitemapParser();
+		private readonly SiteRequest _siteRequest = new SiteRequest();
+
+		public SitemapCrawler(SitemapParser sitemapParser, SiteRequest siteRequest)
+		{
+			_parser = sitemapParser;
+			_siteRequest = siteRequest;
+		}
 
 		public virtual List<Uri> GetSitemaps(Uri url)
 		{
-			return parser.GetSitemapsFromRobotsTxt(siteRequest.DownloadSite(new Uri(url + "robots.txt")));
+			return _parser.GetSitemapsFromRobotsTxt(_siteRequest.DownloadSite(new Uri(url + "robots.txt")));
 		}
 
 		public virtual List<Uri> GetSitesFromSitemap(List<Uri> sitemaps)
@@ -22,14 +28,14 @@ namespace WebCrawler.Logic
 			List<Uri> sitemapUrls = new List<Uri>();
 			foreach (var map in sitemaps)
 			{
-				string site = siteRequest.DownloadSite(map);
+				string site = _siteRequest.DownloadSite(map);
 				if (map.ToString().EndsWith(".xml")|| map.ToString().EndsWith(".xml.gz"))
 				{
-					sitemapUrls.AddRange(parser.GetUrlsFromSitemapXML(site));
+					sitemapUrls.AddRange(_parser.GetUrlsFromSitemapXML(site));
 				}
 				else
 				{
-					sitemapUrls.AddRange(parser.GetUrlsFromSitemapTXT(site));
+					sitemapUrls.AddRange(_parser.GetUrlsFromSitemapTXT(site));
 				}
 			}
 

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Xunit;
-using System.Xml;
 using WebCrawler.Logic;
+using Xunit;
 
 namespace WebCrawler.Tests
 {
@@ -15,7 +12,7 @@ namespace WebCrawler.Tests
 		{
 			// arrange
 			var parser = new SitePageParser();
-			string site =	"<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01//EN\" \"http://test.com/TR/html4/strict.dtd\">\n" +
+			string site = "<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01//EN\" \"http://test.com/TR/html4/strict.dtd\">\n" +
 							"<html>\n" +
 							"<link href=\" / manifest ? pwa = webhp\" crossorigin=\"use - credentials\" rel=\"manifest\">" +
 							"<a http-equiv=\"content - type\" content=\"text / html; charset = utf - 8\">\n" +

@@ -9,6 +9,7 @@ namespace WebCrawler.Logic
 		{
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;
+
 			while (true)
 			{
 				pos = site.IndexOf("<a ", ++pos);
@@ -16,27 +17,32 @@ namespace WebCrawler.Logic
 				{
 					break;
 				}
-				string link = site[pos..(site.IndexOf(">", pos) + 1)];
 
+				string link = site[pos..(site.IndexOf(">", pos) + 1)];
 				int linkStart = link.IndexOf("href=");
+
 				if (linkStart < 0)
 				{
 					continue;
 				}
+
 				link = link.Replace("'", "\"");
 				linkStart = link.IndexOf("\"", linkStart) + 1;
 				int linkEnd = link.IndexOf("\"", linkStart);
 				string href = link[linkStart..linkEnd].Trim();
-				Uri temp = new Uri(href, UriKind.RelativeOrAbsolute);
-				if (!temp.IsAbsoluteUri)
+
+				Uri pageUrl = new Uri(href, UriKind.RelativeOrAbsolute);
+
+				if (!pageUrl.IsAbsoluteUri)
 				{
-					temp = new Uri(siteUrl, href);
+					pageUrl = new Uri(siteUrl, href);
 				}
-				if (temp.Scheme == Uri.UriSchemeHttps || temp.Scheme == Uri.UriSchemeHttp)
+
+				if (pageUrl.Scheme == Uri.UriSchemeHttps || pageUrl.Scheme == Uri.UriSchemeHttp)
 				{
-					if (temp != siteUrl && !urlList.Contains(temp))
+					if (pageUrl != siteUrl && !urlList.Contains(pageUrl))
 					{
-						urlList.Add(temp);
+						urlList.Add(pageUrl);
 					}
 				}
 			}

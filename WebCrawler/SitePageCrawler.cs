@@ -9,13 +9,20 @@ namespace WebCrawler.Logic
 	/// </summary>
 	public class SitepageCrawler
 	{
-		public SitePageParser siteParser = new SitePageParser();
-		public SiteRequest siteRequest = new SiteRequest();
+		private readonly SitePageParser _siteParser;
+		private readonly SiteRequest _siteRequest;
+
+		public SitepageCrawler(SitePageParser siteParser, SiteRequest siteRequest)
+		{
+			_siteParser = siteParser;
+			_siteRequest = siteRequest;
+		}
 
 		public virtual List<Uri> FindPageChildrenLinks(Uri pageUrl)
 		{
-			string page = siteRequest.DownloadSite(pageUrl);
-			List<Uri> pageLinks = siteParser.ParseAllChildrenLinks(page, pageUrl);
+			string page = _siteRequest.DownloadSite(pageUrl);
+			List<Uri> pageLinks = _siteParser.ParseAllChildrenLinks(page, pageUrl);
+
 			return pageLinks;
 		}
 	}

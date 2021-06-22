@@ -12,6 +12,7 @@ namespace WebCrawler.Logic
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(siteTXT);
 			XmlNodeList xmlSitemapList = doc.GetElementsByTagName("url");
+
 			foreach (XmlNode node in xmlSitemapList)
 			{
 				if (node["loc"] != null)
@@ -19,14 +20,17 @@ namespace WebCrawler.Logic
 					urlList.Add(new Uri(node["loc"].InnerText));
 				}
 			}
+
 			xmlSitemapList = doc.GetElementsByTagName("sitemap");
+
 			foreach (XmlNode node in xmlSitemapList)
 			{
-				if (node["loc"] != null)
-				{
-					urlList.Add(new Uri(node["loc"].InnerText));
-				}
+				if (node["loc"] == null)
+					continue;
+
+				urlList.Add(new Uri(node["loc"].InnerText));
 			}
+
 			return urlList;
 		}
 
@@ -34,6 +38,7 @@ namespace WebCrawler.Logic
 		{
 			string[] sites = siteXML.Split('\n');
 			List<Uri> urlList = new List<Uri>(sites.Length);
+
 			foreach (var t in sites)
 			{
 				urlList.Add(new Uri(t, UriKind.RelativeOrAbsolute));

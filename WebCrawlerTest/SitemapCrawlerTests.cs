@@ -12,19 +12,15 @@ namespace WebCrawler.Tests
 		public void SitemapCrawler_FindSitemaps()
 		{
 			// arrange
-			var pasrserMock = new Mock<SitemapParser>();
+			var paserMock = new Mock<SitemapParser>();
 			var reqesterMock = new Mock<SiteRequest>();
-			var sitemapCrawler = new SitemapCrawler
-			{
-				parser = pasrserMock.Object,
-				siteRequest = reqesterMock.Object
-			};
+			var sitemapCrawler = new SitemapCrawler(paserMock.Object, reqesterMock.Object);
 
 			// act
 			var actual = sitemapCrawler.GetSitemaps(new Uri("http://test.com"));
 
 			// assert
-			pasrserMock.Verify(a => a.GetSitemapsFromRobotsTxt(It.IsAny<string>()), Times.Once());
+			paserMock.Verify(a => a.GetSitemapsFromRobotsTxt(It.IsAny<string>()), Times.Once());
 			reqesterMock.Verify(a => a.DownloadSite(It.IsAny<Uri>(), It.IsAny<int>()), Times.Once());
 		}
 
@@ -34,11 +30,7 @@ namespace WebCrawler.Tests
 			// arrange
 			var parserMock = new Mock<SitemapParser>();
 			var reqesterMock = new Mock<SiteRequest>();
-			var sitemapCrawler = new SitemapCrawler
-			{
-				parser = parserMock.Object,
-				siteRequest = reqesterMock.Object
-			};
+			var sitemapCrawler = new SitemapCrawler(parserMock.Object, reqesterMock.Object);
 
 			var expected = new List<Uri>() { new Uri("http://test.com/sitemapTXT") };
 			parserMock.Setup(a => a.GetUrlsFromSitemapTXT(It.IsAny<string>())).Returns(expected);
@@ -56,11 +48,7 @@ namespace WebCrawler.Tests
 			// arrange
 			var parserMock = new Mock<SitemapParser>();
 			var reqesterMock = new Mock<SiteRequest>();
-			var sitemapCrawler = new SitemapCrawler
-			{
-				parser = parserMock.Object,
-				siteRequest = reqesterMock.Object
-			};
+			var sitemapCrawler = new SitemapCrawler(parserMock.Object, reqesterMock.Object);
 
 			var expected = new List<Uri>() { new Uri("http://test.com/sitemapXML") };
 			parserMock.Setup(a => a.GetUrlsFromSitemapXML(It.IsAny<string>())).Returns(expected);

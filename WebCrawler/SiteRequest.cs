@@ -10,10 +10,11 @@ namespace WebCrawler.Logic
 	{
 		public virtual int GetUrlResponseTime(Uri url, int timeout = 10000)
 		{
-			Stopwatch stopwatch;
-			stopwatch = Stopwatch.StartNew();
+			Stopwatch stopwatch = Stopwatch.StartNew();
+			
 			GetPageResponse(url, timeout);
 			stopwatch.Stop();
+
 			return (int)stopwatch.ElapsedMilliseconds;
 		}
 
