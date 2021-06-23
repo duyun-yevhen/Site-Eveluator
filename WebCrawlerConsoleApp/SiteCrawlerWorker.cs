@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using WebCrawler.Logic;
+using WebCrawler.Model;
 
 namespace WebCrawler.ConsoleApp
 {
@@ -20,21 +21,21 @@ namespace WebCrawler.ConsoleApp
 			_sitemapCrawler = new SitemapCrawler(new SitemapParser(), _siteRequest);
 		}
 
-		public List<UrlResponseTimeModel> GetAllLinks(Uri url)
+		public List<UrlResponseTime> GetAllLinks(Uri url)
 		{
 			var sitemapLinks = _sitemapCrawler.GetSitesFromSitemap(_sitemapCrawler.GetSitemaps(new Uri("http://" + url.Host)));
 			var pageLinks = _sitepageCrawler.FindPageChildrenLinks(url);
-			var result = new List<UrlResponseTimeModel>();
+			var result = new List<UrlResponseTime>();
 
 			foreach (var link in sitemapLinks.Union(pageLinks))
 			{
-				result.Add(new UrlResponseTimeModel() { Url = link, InSitemap = sitemapLinks.Contains(link), InSitePage = pageLinks.Contains(link) });
+				result.Add(new UrlResponseTime() { Url = link, InSitemap = sitemapLinks.Contains(link), InSitePage = pageLinks.Contains(link) });
 			}
 
 			return result;
 		}
 
-		public void PrintSitemapResult(List<UrlResponseTimeModel> result)
+		public void PrintSitemapResult(List<UrlResponseTime> result)
 		{
 			Console.WriteLine("Urls FOUNDED IN SITEMAP but not founded after crawling a web site:");
 			
@@ -45,7 +46,7 @@ namespace WebCrawler.ConsoleApp
 			}
 		}
 
-		public void PrintsitePageResult(List<UrlResponseTimeModel> result)
+		public void PrintsitePageResult(List<UrlResponseTime> result)
 		{
 			Console.WriteLine("\r\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml:");
 			var links = result.Where(s => !s.InSitemap && s.InSitePage).ToList();
@@ -55,7 +56,7 @@ namespace WebCrawler.ConsoleApp
 			}
 		}
 
-		public void PrintTotalResult(List<UrlResponseTimeModel> result)
+		public void PrintTotalResult(List<UrlResponseTime> result)
 		{
 			Console.WriteLine("\r\nTiming:");
 			for (int i = 0; i < result.Count; i++)
@@ -72,7 +73,7 @@ namespace WebCrawler.ConsoleApp
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		public void RequestUrlsForSetResponseTimes(List<UrlResponseTimeModel> urls, int querydDelay = 500, int timeout = 10000)
+		public void RequestUrlsForSetResponseTimes(List<UrlResponseTime> urls, int querydDelay = 500, int timeout = 10000)
 		{
 			int i = 1;
 			foreach (var link in urls)
@@ -83,7 +84,7 @@ namespace WebCrawler.ConsoleApp
 			}
 
 			Console.Clear();
-			urls.Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
+			urls.Sort((l,r)=>l.ResponseTime.CompareTo(r.ResponseTime));
 		}
 	}
 }

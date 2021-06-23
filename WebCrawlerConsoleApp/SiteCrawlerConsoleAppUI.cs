@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using WebCrawler.ConsoleApp.Properties;
+using WebCrawler.Model;
 
 namespace WebCrawler.ConsoleApp
 {
@@ -30,6 +33,5 @@ namespace WebCrawler.ConsoleApp
 				Console.WriteLine();
 			}
 		}
-
 	}
 }
