@@ -1,24 +1,29 @@
 ﻿using System;
+using System.Data;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using WebCrawler.Model;
 
 namespace WebCrawler.Model
 {
-	public class WebCrawlerDbContext : DbContext
+	public class WebCrawlerDbContext : DbContext, IEfRepositoryDbContext
 	{
 		public DbSet<PerformanceTest> PerformanceTests { get; set; }
 		public DbSet<UrlResponseTime> UrlResponseTimes { get; set; }
 
 
 
-		public WebCrawlerDbContext()
+		public WebCrawlerDbContext(DbContextOptions<WebCrawlerDbContext> options)
+		:base(options)
 		{
-			
+			Database.Migrate(); 
 		}
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;");
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebCrawlerDbContext).Assembly);
+			base.OnModelCreating(modelBuilder);
+			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		}
 	}
 }

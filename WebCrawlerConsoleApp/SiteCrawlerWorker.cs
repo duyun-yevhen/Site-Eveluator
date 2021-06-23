@@ -61,7 +61,7 @@ namespace WebCrawler.ConsoleApp
 			Console.WriteLine("\r\nTiming:");
 			for (int i = 0; i < result.Count; i++)
 			{
-				Console.WriteLine($"{i + 1}) {result[i].Url}");
+				Console.WriteLine($"{i + 1}) {result[i].ResponseTime} {result[i].Url}");
 			}
 
 			Console.WriteLine($"\r\nUrls(html documents) found after crawling a website: {result.Where(s => s.InSitePage).Count()}\r\n" +

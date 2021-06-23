@@ -13,7 +13,7 @@ namespace WebCrawler.Model
 		public bool InSitePage { get; set; }
 		public int ResponseTime { get; set; } 
 
-		public int TestId { get; set; }
+		public int TestID { get; set; }
 		public PerformanceTest Test { get; set; }
 	}
 }

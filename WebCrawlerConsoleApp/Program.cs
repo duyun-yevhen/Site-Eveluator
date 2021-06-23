@@ -1,31 +1,29 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using WebCrawler.Model;
 
 namespace WebCrawler.ConsoleApp
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
-			var Crawler = new SiteCrawlerConsoleAppUI();
+			using IHost host = CreateHostBuilder(args).Build();
+			var Crawler = host.Services.GetService<SiteCrawlerConsoleAppUI>();
 			Crawler.DoWork();
+			await host.RunAsync();
 		}
 
-		//public static IHostBuilder CreateHostBuilder(string[] args) =>
-		//		Host.CreateDefaultBuilder(args)
-		//			.ConfigureServices((hostContext, services) =>
-		//			{
-		//				services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Test;Trusted_Connection=True"));
-		//				services.AddScoped<DbWorker>();
-		//				services.AddScoped<WebCrawlerApp>();
-		//			}).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
-	
-	public void ConfigurateDB()
-		{
-		//	string connectionString = Resources.ConnectionString;
-		//	var optionsBuilder = new DbContextOptionsBuilder<WebCrawlerDbContext>();
-		//	var options = optionsBuilder.UseSqlServer(connectionString).Options;
-		//	var db = new WebCrawlerDbContext(options);
-		}
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+				Host.CreateDefaultBuilder(args)
+					.ConfigureServices((hostContext, services) =>
+					{
+						services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Test;Integrated Security=True"));
+						services.AddScoped<DbWorker>();
+						services.AddScoped<SiteCrawlerConsoleAppUI>();
+					}).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
 	}
 }

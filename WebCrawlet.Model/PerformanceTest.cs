@@ -7,6 +7,7 @@ namespace WebCrawler.Model
 	public class PerformanceTest
 	{
 		[Key]
+	
 		public int TestId { get; set; }
 		[MaxLength(2048)]
 		public Uri SiteUrl { get; set; }
