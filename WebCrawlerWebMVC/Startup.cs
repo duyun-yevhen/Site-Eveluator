@@ -26,7 +26,7 @@ namespace WebCrawlerWebMVC
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-			services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Test;Integrated Security=True"));
+			services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SiteCrawlerDB")));
 			services.AddScoped<DbWorker>();
 		}
 

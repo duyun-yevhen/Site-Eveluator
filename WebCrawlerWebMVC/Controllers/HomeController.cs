@@ -12,6 +12,9 @@ namespace WebCrawlerWebMVC.Controllers
 {
 	public class HomeController : Controller
 	{
+
+		SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
+
 		private readonly ILogger<HomeController> _logger;
 
 		public HomeController(ILogger<HomeController> logger)
@@ -27,11 +30,9 @@ namespace WebCrawlerWebMVC.Controllers
 		[HttpGet]
 		public IActionResult GetPerformance(Uri url)
 		{
-			var r = new UrlPerformanseTestResult();
-			r.Url = url;
-			var s = new UrlPerformanseTestResult();
-			s.Url = url;
-			return View("Index", new List<UrlPerformanseTestResult>() { s, r });
+			ViewBag.StartUrl = url;
+			ViewBag.PerfomanseResult = siteCrawlerWorker.GetAllLinks(url);
+			return View("Index");
 		}
 
 		public IActionResult Privacy()
