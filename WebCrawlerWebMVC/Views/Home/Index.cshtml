@@ -15,13 +15,13 @@
 </div>
 
 <div>
-	
+	@if (ViewBag.StartUrl != null)
+	{
+		<br><h5>@ViewBag.StartUrl</h5>
 
-	@if (ViewBag.PerfomanseResult != null)
 		@foreach (WebCrawler.Model.UrlPerformanseTestResult res in ViewBag.PerfomanseResult)
 		{
-			<br><h5>@res.Url.ToString()</h5>
+			<br><h5>@res.ResponseTime @res.Url</h5>
 		}
-
-
+	}
 </div>

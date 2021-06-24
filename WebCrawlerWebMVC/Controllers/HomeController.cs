@@ -13,13 +13,15 @@ namespace WebCrawlerWebMVC.Controllers
 	public class HomeController : Controller
 	{
 
-		SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
+		private readonly SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
+		private readonly DbWorker _dbWorker;
 
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, DbWorker dbWorker)
 		{
 			_logger = logger;
+			_dbWorker = dbWorker;
 		}
 
 		public IActionResult Index()
@@ -31,7 +33,10 @@ namespace WebCrawlerWebMVC.Controllers
 		public IActionResult GetPerformance(Uri url)
 		{
 			ViewBag.StartUrl = url;
-			ViewBag.PerfomanseResult = siteCrawlerWorker.GetAllLinks(url);
+			var results = siteCrawlerWorker.GetAllLinks(url);
+			siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
+			_dbWorker.SaveResult(url, results);
+			ViewBag.PerfomanseResult = results;
 			return View("Index");
 		}
 

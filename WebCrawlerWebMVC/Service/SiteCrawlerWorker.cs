@@ -77,12 +77,9 @@ namespace WebCrawlerWebMVC
 			int i = 1;
 			foreach (var link in urls)
 			{
-				Console.WriteLine($"{i++}/{urls.Count} {link.Url}");
 				link.ResponseTime = _siteRequest.GetUrlResponseTime(link.Url, timeout);
 				Thread.Sleep(querydDelay);
 			}
-
-			Console.Clear();
 			urls.Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
 		}
 	}
