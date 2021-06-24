@@ -21,8 +21,10 @@ namespace WebCrawlerWebMVC.Controllers
 			_dbWorker = dbWorker;
 		}
 
+		[HttpGet]
 		public IActionResult Index()
 		{
+			ViewBag.Tests = _dbWorker.GetTests();
 			return View();
 		}
 

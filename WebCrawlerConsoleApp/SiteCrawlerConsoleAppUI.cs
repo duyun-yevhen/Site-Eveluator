@@ -33,7 +33,7 @@ namespace WebCrawler.ConsoleApp
 					_crawlerWorker.PrintSitePageResult(result);
 					_crawlerWorker.PrintTotalResult(result);
 
-					_dbWorker.SaveResult(url, result);
+					_dbWorker.SaveResultAsync(url, result).Wait();
 				}
 				else
 				{

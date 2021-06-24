@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="6.2.4" />
     <PackageReference Include="UkadGroup.EfRepository" Version="1.0.1" />
     <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
   </ItemGroup>

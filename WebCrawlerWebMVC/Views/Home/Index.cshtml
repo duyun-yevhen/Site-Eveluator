@@ -11,17 +11,20 @@
 		<input size="60" type="url" required name="url" />
 		<input type="submit" value="Test" />
 	}
-
+    <br />
 </div>
 
-<div>
-	@if (ViewBag.StartUrl != null)
-	{
-		<br><h5>@ViewBag.StartUrl</h5>
-
-		@foreach (WebCrawler.Model.UrlPerformanseTestResult res in ViewBag.PerfomanseResult)
-		{
-			<br><h5>@res.ResponseTime @res.Url</h5>
-		}
-	}
-</div>
+@(Html
+    .Grid((IEnumerable<WebCrawler.Model.PerformanceTest>)ViewBag.Tests)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Id).Titled("ID");
+        columns.Add(model => model.Date).Titled("Date");
+        columns.Add(model => model.SiteUrl).Titled("Site URL");
+    })
+    .Using(GridFilterMode.Header)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+)

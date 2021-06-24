@@ -32,5 +32,9 @@ namespace WebCrawler.Model
 			return _testsRepository.Include(p => p.UrlResponseTimes).FirstOrDefault(s => s.Id == testID); 
 		}
 
+		public IQueryable<PerformanceTest> GetTests()
+		{
+			return _testsRepository.GetAll();
+		}
 	}
 }
