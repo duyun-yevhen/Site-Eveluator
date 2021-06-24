@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using WebCrawler.Model;
 
-namespace WebCrawler.ConsoleApp
+namespace WebCrawler.Model
 {
 	public class DbWorker
 	{

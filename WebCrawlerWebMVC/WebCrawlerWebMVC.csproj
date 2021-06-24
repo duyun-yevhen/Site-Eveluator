@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Win32Resource></Win32Resource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UkadGroup.EfRepository" Version="1.0.1" />
+    <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebCrawler.DbContext\WebCrawler.WebCrawlerDbContext.csproj" />
+  </ItemGroup>
+
+</Project>

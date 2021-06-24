@@ -1,4 +1,5 @@
 ﻿using System;
+using WebCrawler.Model;
 
 namespace WebCrawler.ConsoleApp
 {

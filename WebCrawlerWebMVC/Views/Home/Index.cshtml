@@ -1,0 +1,28 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Site Performance Test</h1>
+
+	@using (Html.BeginForm("GetPerformance", "Home", FormMethod.Get))
+	{
+		<p>Enter site URL:</p>
+		<input size="60" type="url" required name="url" />
+		<input type="submit" value="Test" />
+	}
+
+</div>
+
+<div>
+	@if (ViewBag.UrlPerformanseTestResul != null)
+	{
+		foreach (WebCrawler.Model.UrlPerformanseTestResult res in ViewBag.UrlPerformanseTestResult)
+		{
+			<br>res.Url.ToString();
+		}
+	}
+
+
+
+</div>
