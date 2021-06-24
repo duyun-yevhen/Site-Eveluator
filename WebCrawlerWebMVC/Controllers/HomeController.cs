@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Model;
 using WebCrawlerWebMVC.Models;
@@ -12,8 +11,6 @@ namespace WebCrawlerWebMVC.Controllers
 {
 	public class HomeController : Controller
 	{
-
-		private readonly SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
 		private readonly DbWorker _dbWorker;
 
 		private readonly ILogger<HomeController> _logger;
@@ -30,15 +27,35 @@ namespace WebCrawlerWebMVC.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetPerformance(Uri url)
+		public async Task<IActionResult> GetPerformance(Uri url)
 		{
-			ViewBag.StartUrl = url;
-			var results = siteCrawlerWorker.GetAllLinks(url);
-			siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
-			_dbWorker.SaveResult(url, results);
-			ViewBag.PerfomanseResult = results;
+			List<UrlPerformanseTestResult> results = null;
+			SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
+			await Task.Run(() =>
+				{
+					ViewBag.StartUrl = url;
+					results = siteCrawlerWorker.GetAllLinks(url);
+					siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
+					ViewBag.PerfomanseResult = results;
+				});
+
+			await _dbWorker.SaveResultAsync(url, results);
 			return View("Index");
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> TestResults(int testID)
+		{
+			await Task.Run(() =>
+			{ 
+				var test = _dbWorker.GetResultsByTestID(testID);
+				var results = _dbWorker.GetResultsByTestID(testID);
+				ViewBag.TestResult = results;
+			});
+			return View();
+		}
+
+
 
 		public IActionResult Privacy()
 		{

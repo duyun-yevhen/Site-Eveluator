@@ -1,0 +1,59 @@
+﻿@{
+	ViewData["Title"] = "Home Page"; 
+}
+
+<div class="text-center">
+	<h1 class="display-4">Site Performance Result</h1>
+
+	@using (Html.BeginForm("TestResults", "Home", FormMethod.Get))
+	{
+		<p>Enter test ID:</p>
+		<input size="60" type="number" required name="testId" />
+		<input type="submit" value="Test" />
+	}
+
+	@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+	{
+		<input type="submit" value="Back to Tests" />
+	}
+
+</div>
+
+<div>
+	@if (ViewBag.TestResult != null)
+	{
+		WebCrawler.Model.PerformanceTest test = ViewBag.TestResult;
+		var resuts = test.UrlResponseTimes;
+
+		<h4>
+			<br>Performanse
+			<br>ID: @test.Id
+			<br>Date: @test.Date
+			<br>@test.SiteUrl
+		</h4>
+
+		<ul>
+			@foreach (var res in resuts)
+			{
+				<li>@res.ResponseTime <a href="@res.Url">@res.Url</a></li>
+			}
+		</ul>
+
+		<br>
+		<h4>URL NOT FOUND AT WEBSITE</h4>
+		<ul>
+			@foreach (var res in resuts.Where(s => !s.InSitePage))
+			{
+				<li><a href="@res.Url">@res.Url</a></li>
+			}
+		</ul>
+		<br>
+		<h4>URL NOT FOUND AT SITEMAP</h4>
+		<ul>
+			@foreach (var res in resuts.Where(s => !s.InSitemap))
+			{
+				<li><a href="@res.Url">@res.Url</a></li>	
+			}
+		</ul>
+	}
+</div>
