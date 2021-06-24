@@ -40,7 +40,7 @@ namespace WebCrawler.Logic
 
 				if (pageUrl.Scheme == Uri.UriSchemeHttps || pageUrl.Scheme == Uri.UriSchemeHttp)
 				{
-					if (pageUrl != siteUrl && !urlList.Contains(pageUrl))
+					if (!urlList.Contains(pageUrl))
 					{
 						urlList.Add(pageUrl);
 					}

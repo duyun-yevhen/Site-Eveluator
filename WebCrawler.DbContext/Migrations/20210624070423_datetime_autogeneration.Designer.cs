@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCrawler.Model;
 
 namespace WebCrawler.Model.Migrations
 {
     [DbContext(typeof(WebCrawlerDbContext))]
-    partial class WebCrawlerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624070423_datetime_autogeneration")]
+    partial class datetime_autogeneration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace WebCrawler.Model.Migrations
 
             modelBuilder.Entity("WebCrawler.Model.PerformanceTest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -29,18 +31,18 @@ namespace WebCrawler.Model.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("SiteUrl")
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TestId");
 
                     b.ToTable("PerformanceTests");
                 });
 
-            modelBuilder.Entity("WebCrawler.Model.UrlPerformanseTestResult", b =>
+            modelBuilder.Entity("WebCrawler.Model.UrlResponseTime", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +72,7 @@ namespace WebCrawler.Model.Migrations
                     b.ToTable("UrlResponseTimes");
                 });
 
-            modelBuilder.Entity("WebCrawler.Model.UrlPerformanseTestResult", b =>
+            modelBuilder.Entity("WebCrawler.Model.UrlResponseTime", b =>
                 {
                     b.HasOne("WebCrawler.Model.PerformanceTest", "Test")
                         .WithMany("UrlResponseTimes")

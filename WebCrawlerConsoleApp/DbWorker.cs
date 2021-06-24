@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using WebCrawler.Model;
 
 namespace WebCrawler.ConsoleApp
@@ -10,22 +9,22 @@ namespace WebCrawler.ConsoleApp
 	public class DbWorker
 	{
 		private readonly IRepository<PerformanceTest> _testsRepository;
-		private readonly IRepository<UrlResponseTime> _urlResponseTimeRepository;
+		private readonly IRepository<UrlPerformanseTestResult> _urlResponseTimeRepository;
 
-		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<UrlResponseTime> urlResponseTimeRepository)
+		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<UrlPerformanseTestResult> urlResponseTimeRepository)
 		{
 			_testsRepository = testsRepository;
 			_urlResponseTimeRepository = urlResponseTimeRepository;
 		}
 
-		public void SaveResult(Uri siteUrl, List<UrlResponseTime> urlResponseTimes)
+		public async void SaveResult(Uri siteUrl, List<UrlPerformanseTestResult> urlResponseTimes)
 		{
-			var test = new PerformanceTest() { SiteUrl = siteUrl, Date = DateTime.UtcNow };
+			var test = new PerformanceTest() { SiteUrl = siteUrl };
 			_testsRepository.Add(test);
-			_testsRepository.SaveChanges();
+			await _testsRepository.SaveChangesAsync();
 
-			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p=> { p.TestID = test.TestId;  return p; }));;
-			_urlResponseTimeRepository.SaveChanges();
+			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p;})); ;
+			await _urlResponseTimeRepository.SaveChangesAsync();
 		}
 	}
 }

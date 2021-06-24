@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\WebCrawler.DbContext\WebCrawler.WebCrawlerDbContext.csproj" />
     <ProjectReference Include="..\WebCrawler\WebCrawler.Logic.csproj" />
-    <ProjectReference Include="..\WebCrawlet.Model\WebCrawler.Model.csproj" />
   </ItemGroup>
 
 </Project>

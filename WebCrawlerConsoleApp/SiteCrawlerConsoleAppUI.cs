@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using WebCrawler.ConsoleApp;
-using WebCrawler.Model;
+﻿using System;
 
 namespace WebCrawler.ConsoleApp
 {
@@ -32,7 +29,7 @@ namespace WebCrawler.ConsoleApp
 					_crawlerWorker.RequestUrlsForSetResponseTimes(result, TIMEOUT);
 
 					_crawlerWorker.PrintSitemapResult(result);
-					_crawlerWorker.PrintsitePageResult(result);
+					_crawlerWorker.PrintSitePageResult(result);
 					_crawlerWorker.PrintTotalResult(result);
 
 					_dbWorker.SaveResult(url, result);

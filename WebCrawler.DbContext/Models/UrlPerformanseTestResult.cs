@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebCrawler.Model
 {
-	public class UrlResponseTime
+	public class UrlPerformanseTestResult
 	{
 		public int Id { get; set; }
-
+	
 		[MaxLength(2048)]
 		public Uri Url { get; set; }
 		public bool InSitemap { get; set; }

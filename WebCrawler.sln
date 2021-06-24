@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.ConsoleApp", "We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Tests", "WebCrawlerTest\WebCrawler.Tests.csproj", "{5160C07A-B7BE-4B76-BEF8-107127B0F740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrawler.Model", "WebCrawlet.Model\WebCrawler.Model.csproj", "{20C9C41B-61F2-4562-9EB8-11F8E3CCD646}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrawler.WebCrawlerDbContext", "WebCrawler.DbContext\WebCrawler.WebCrawlerDbContext.csproj", "{954E1F5B-DE15-4BE4-9284-1ECA1A6A7907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebCrawlerDbContext", "WebCrawler.DbContext\WebCrawler.WebCrawlerDbContext.csproj", "{954E1F5B-DE15-4BE4-9284-1ECA1A6A7907}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{5160C07A-B7BE-4B76-BEF8-107127B0F740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5160C07A-B7BE-4B76-BEF8-107127B0F740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5160C07A-B7BE-4B76-BEF8-107127B0F740}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20C9C41B-61F2-4562-9EB8-11F8E3CCD646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20C9C41B-61F2-4562-9EB8-11F8E3CCD646}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20C9C41B-61F2-4562-9EB8-11F8E3CCD646}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20C9C41B-61F2-4562-9EB8-11F8E3CCD646}.Release|Any CPU.Build.0 = Release|Any CPU
 		{954E1F5B-DE15-4BE4-9284-1ECA1A6A7907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{954E1F5B-DE15-4BE4-9284-1ECA1A6A7907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{954E1F5B-DE15-4BE4-9284-1ECA1A6A7907}.Release|Any CPU.ActiveCfg = Release|Any CPU

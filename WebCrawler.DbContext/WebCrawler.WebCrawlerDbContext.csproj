@@ -20,8 +20,4 @@
     <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebCrawlet.Model\WebCrawler.Model.csproj" />
-  </ItemGroup>
-
 </Project>

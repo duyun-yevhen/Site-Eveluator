@@ -1,22 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using WebCrawler.Model;
 
 namespace WebCrawler.Model
 {
 	public class WebCrawlerDbContext : DbContext, IEfRepositoryDbContext
 	{
 		public DbSet<PerformanceTest> PerformanceTests { get; set; }
-		public DbSet<UrlResponseTime> UrlResponseTimes { get; set; }
-
-
+		public DbSet<UrlPerformanseTestResult> UrlResponseTimes { get; set; }
 
 		public WebCrawlerDbContext(DbContextOptions<WebCrawlerDbContext> options)
-		:base(options)
+		: base(options)
 		{
-			Database.Migrate(); 
+			Database.Migrate();
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

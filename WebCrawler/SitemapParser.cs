@@ -26,7 +26,9 @@ namespace WebCrawler.Logic
 			foreach (XmlNode node in xmlSitemapList)
 			{
 				if (node["loc"] == null)
+				{
 					continue;
+				}
 
 				urlList.Add(new Uri(node["loc"].InnerText));
 			}
@@ -52,10 +54,13 @@ namespace WebCrawler.Logic
 			List<Uri> sitemaps = new List<Uri>();
 			List<string> lines = new List<string>(site.Split());
 
-			for (int i = lines.FindIndex(p => p.StartsWith("Sitemap:")); i + 1 < lines.Count && i > 0; i = lines.FindIndex(i + 1, p => p.StartsWith("Sitemap:")))
+			int i = lines.FindIndex(p => p.StartsWith("Sitemap:"));
+
+			while (i + 1 < lines.Count && i > 0)
 			{
 				sitemaps.Add(new Uri(lines[i + 1], UriKind.RelativeOrAbsolute));
-			}
+				i = lines.FindIndex(i + 1, p => p.StartsWith("Sitemap:"));
+			} 
 
 			return sitemaps;
 		}

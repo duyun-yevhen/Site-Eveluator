@@ -17,13 +17,15 @@ namespace WebCrawler.ConsoleApp
 			await host.RunAsync();
 		}
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-				Host.CreateDefaultBuilder(args)
-					.ConfigureServices((hostContext, services) =>
-					{
-						services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Test;Integrated Security=True"));
-						services.AddScoped<DbWorker>();
-						services.AddScoped<SiteCrawlerConsoleAppUI>();
-					}).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
+		public static IHostBuilder CreateHostBuilder(string[] args)
+		{
+			return Host.CreateDefaultBuilder(args)
+			.ConfigureServices((hostContext, services) =>
+			{
+				services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Test;Integrated Security=True"));
+				services.AddScoped<DbWorker>();
+				services.AddScoped<SiteCrawlerConsoleAppUI>();
+			}).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
+		}
 	}
 }
