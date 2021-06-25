@@ -12,13 +12,15 @@ namespace WebCrawlerWebMVC.Controllers
 	public class HomeController : Controller
 	{
 		private readonly DbWorker _dbWorker;
+		private readonly SiteCrawlerWorker _siteCrawlerWorker;
 
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger, DbWorker dbWorker)
+		public HomeController(ILogger<HomeController> logger, DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
 		{
 			_logger = logger;
 			_dbWorker = dbWorker;
+			_siteCrawlerWorker = siteCrawlerWorker;
 		}
 
 		[HttpGet]
@@ -32,12 +34,11 @@ namespace WebCrawlerWebMVC.Controllers
 		public async Task<IActionResult> GetPerformance(Uri url)
 		{
 			List<UrlPerformanseTestResult> results = null;
-			SiteCrawlerWorker siteCrawlerWorker = new SiteCrawlerWorker(); //изменить?
 			await Task.Run(() =>
 				{
 					ViewBag.StartUrl = url;
-					results = siteCrawlerWorker.GetAllLinks(url);
-					siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
+					results = _siteCrawlerWorker.GetAllLinks(url);
+					_siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
 					ViewBag.PerfomanseResult = results;
 				});
 

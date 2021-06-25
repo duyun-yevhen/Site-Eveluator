@@ -13,11 +13,11 @@ namespace WebCrawlerWebMVC
 		private readonly SitepageCrawler _sitepageCrawler;
 		private readonly SitemapCrawler _sitemapCrawler;
 
-		public SiteCrawlerWorker()
+		public SiteCrawlerWorker(SiteRequest siteRequest, SitepageCrawler sitepageCrawler, SitemapCrawler sitemapCrawler)
 		{
-			_siteRequest = new SiteRequest();
-			_sitepageCrawler = new SitepageCrawler(new SitePageParser(), _siteRequest);
-			_sitemapCrawler = new SitemapCrawler(new SitemapParser(), _siteRequest);
+			_siteRequest = siteRequest;
+			_sitepageCrawler = sitepageCrawler;
+			_sitemapCrawler = sitemapCrawler;
 		}
 
 		public List<UrlPerformanseTestResult> GetAllLinks(Uri url)

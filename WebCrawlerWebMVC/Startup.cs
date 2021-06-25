@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebCrawler.Logic;
 using WebCrawler.Model;
 
 namespace WebCrawlerWebMVC
@@ -28,6 +29,14 @@ namespace WebCrawlerWebMVC
 			services.AddControllersWithViews();
 			services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SiteCrawlerDB")));
 			services.AddScoped<DbWorker>();
+			services.AddScoped<SitepageCrawler>();
+			services.AddScoped<SitemapParser>();
+			services.AddScoped<SitemapCrawler>();
+			services.AddScoped<SitePageParser>();
+			services.AddScoped<SiteRequest>();
+			services.AddScoped<SitepageCrawler>();
+			services.AddScoped<SitemapCrawler>();
+			services.AddScoped<SiteCrawlerWorker>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
