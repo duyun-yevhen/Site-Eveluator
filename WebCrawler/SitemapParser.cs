@@ -8,7 +8,10 @@ namespace WebCrawler.Logic
 	{
 		public virtual List<Uri> GetUrlsFromSitemapXML(string siteTXT)
 		{
+		
 			List<Uri> urlList = new List<Uri>();
+			if (siteTXT == null)
+				return urlList;
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(siteTXT);
 			XmlNodeList xmlSitemapList = doc.GetElementsByTagName("url");

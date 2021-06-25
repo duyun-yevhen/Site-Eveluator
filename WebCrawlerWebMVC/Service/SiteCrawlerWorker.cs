@@ -74,7 +74,6 @@ namespace WebCrawlerWebMVC
 		/// <param name="timeout">Maximum response timeout</param>
 		public void RequestUrlsForSetResponseTimes(List<UrlPerformanseTestResult> urls, int querydDelay = 500, int timeout = 10000)
 		{
-			int i = 1;
 			foreach (var link in urls)
 			{
 				link.ResponseTime = _siteRequest.GetUrlResponseTime(link.Url, timeout);
