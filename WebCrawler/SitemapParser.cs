@@ -55,6 +55,10 @@ namespace WebCrawler.Logic
 		public virtual List<Uri> GetSitemapsFromRobotsTxt(string site)
 		{
 			List<Uri> sitemaps = new List<Uri>();
+			if(site==null)
+			{
+				return sitemaps;
+			}
 			List<string> lines = new List<string>(site.Split());
 
 			int i = lines.FindIndex(p => p.StartsWith("Sitemap:"));

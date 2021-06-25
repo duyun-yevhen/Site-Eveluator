@@ -17,7 +17,7 @@ namespace WebCrawler.Model
 			_urlResponseTimeRepository = urlResponseTimeRepository;
 		}
 
-		public async Task SaveResultAsync(Uri siteUrl, List<UrlPerformanseTestResult> urlResponseTimes)
+		public async Task<int> SaveResultAsync(Uri siteUrl, List<UrlPerformanseTestResult> urlResponseTimes)
 		{
 			var test = new PerformanceTest() { SiteUrl = siteUrl };
 			_testsRepository.Add(test);
@@ -25,6 +25,7 @@ namespace WebCrawler.Model
 
 			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p;})); ;
 			await _urlResponseTimeRepository.SaveChangesAsync();
+			return test.Id;
 		}
 
 		public PerformanceTest GetResultsByTestID(int testID)
