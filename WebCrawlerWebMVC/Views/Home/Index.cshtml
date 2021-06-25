@@ -5,10 +5,19 @@
 <div class="text-center">
 	<h1 class="display-4">Site Performance Test</h1>
 
+	<br />
 	@using (Html.BeginForm("GetPerformance", "Home", FormMethod.Get))
 	{
 		<p>Enter site URL:</p>
 		<input size="60" type="url" required name="url" />
+		<input type="submit" value="Test" />
+	}
+	<br />
+
+	@using (Html.BeginForm("TestResults", "Home", FormMethod.Get, new { id = "TestResult" }))
+	{
+		<p>Get Test Results by Id:</p>
+		<input size="60" type="number" required name="testId" />
 		<input type="submit" value="Test" />
 	}
 	<br />
@@ -33,8 +42,8 @@
 
 <script>
 	document.addEventListener("rowclick", e => {
-		$.get("Home/TestResults", { testID: e.detail.data.Id }, function (data) {
-			document.write(data);
-		})
+		var form = document.getElementById("TestResult");
+		form[0].value = e.detail.data.Id
+		form.submit()
 	});
 </script>

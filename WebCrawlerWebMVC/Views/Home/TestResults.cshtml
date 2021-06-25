@@ -11,12 +11,12 @@
 		<input size="60" type="number" required name="testId" />
 		<input type="submit" value="Test" />
 	}
-
+	<br />
 	@using (Html.BeginForm("Index", "Home", FormMethod.Get))
 	{
 		<input type="submit" value="Back to Tests" />
 	}
-
+	<br />
 </div>
 
 <div>
@@ -26,20 +26,20 @@
 		var resuts = test.UrlResponseTimes;
 
 		<h4>
-			<br>Performanse
-			<br>ID: @test.Id
-			<br>Date: @test.Date
-			<br>@test.SiteUrl
+			<br/>Performanse
+			<br/>ID: @test.Id
+			<br/>Date: @test.Date
+			<br/>@test.SiteUrl
 		</h4>
-
+		<br />
 		@(Html
 	.Grid(resuts)
 	.Build(columns =>
 	{
 		columns.Add(model => model.Id).Titled("ID");
 		columns.Add(model => model.ResponseTime).Titled("ResponseTime");
-		columns.Add(model => model.InSitemap).Titled("Page URL");
-		columns.Add(model => model.InSitePage).Titled("Page URL");
+		columns.Add(model => model.InSitemap).Titled("In Sitemap");
+		columns.Add(model => model.InSitePage).Titled("In Site Page");
 
 		columns.Add(model => model.Url).Titled("Page URL");
 	})
@@ -52,26 +52,40 @@
 	.AppendCss("table-hover")
 	)
 
+		<br>
+		<h4>URL NOT FOUND AT WEBSITE</h4>
+		@(Html
+	.Grid(resuts)
+	.Build(columns =>
+	{
+		columns.Add(model => model.Id).Titled("ID");
+		columns.Add(model => model.Url).Titled("Page URL");
+	})
+	.Using(GridFilterMode.Header)
+	.Empty("No data found")
+	.Filterable()
+	.Sortable()
+	.Pageable()
+	.Css("css-classes")
+	.AppendCss("table-hover")
+	)
 
-		@*<br>
-			<h4>URL NOT FOUND AT WEBSITE</h4>
-			<ul>
-				@foreach (var res in resuts.Where(s => !s.InSitePage))
-				{
-					<li><a href="@res.Url">@res.Url</a></li>
-				}
-			</ul>
-			<br>
-			<h4>URL NOT FOUND AT SITEMAP</h4>
-			<ul>
-				@foreach (var res in resuts.Where(s => !s.InSitemap))
-				{
-					<li><a href="@res.Url">@res.Url</a></li>
-
-				}
-			</ul>*@
+		<br>
+		<h4>URL NOT FOUND AT SITEMAP</h4>
+		@(Html
+	.Grid(resuts)
+	.Build(columns =>
+	{
+		columns.Add(model => model.Id).Titled("ID");
+		columns.Add(model => model.Url).Titled("Page URL");
+	})
+	.Using(GridFilterMode.Header)
+	.Empty("No data found")
+	.Filterable()
+	.Sortable()
+	.Pageable()
+	.Css("css-classes")
+	.AppendCss("table-hover")
+	)
 	}
 </div>
-
-
-
