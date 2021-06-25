@@ -21,7 +21,7 @@ namespace WebCrawler.Tests
 			var dBWorker = new DbWorker(testsRepositoryMock.Object, urlResponseTimeRepositoryMock.Object);
 
 			// act
-			dBWorker.SaveResult(new Uri("http://test.com"), new List<UrlPerformanseTestResult>() { new UrlPerformanseTestResult(), new UrlPerformanseTestResult() });
+			dBWorker.SaveResultAsync(new Uri("http://test.com"), new List<UrlPerformanseTestResult>() { new UrlPerformanseTestResult(), new UrlPerformanseTestResult() });
 
 			// assert
 			testsRepositoryMock.Verify(a => a.Add(It.IsAny<PerformanceTest>()), Times.Once());

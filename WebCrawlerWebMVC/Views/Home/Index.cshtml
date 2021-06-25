@@ -11,20 +11,30 @@
 		<input size="60" type="url" required name="url" />
 		<input type="submit" value="Test" />
 	}
-    <br />
+	<br />
 </div>
 
 @(Html
-    .Grid((IEnumerable<WebCrawler.Model.PerformanceTest>)ViewBag.Tests)
-    .Build(columns =>
-    {
-        columns.Add(model => model.Id).Titled("ID");
-        columns.Add(model => model.Date).Titled("Date");
-        columns.Add(model => model.SiteUrl).Titled("Site URL");
-    })
-    .Using(GridFilterMode.Header)
-    .Empty("No data found")
-    .Filterable()
-    .Sortable()
-    .Pageable()
+	.Grid((IQueryable<WebCrawler.Model.PerformanceTest>)ViewBag.Tests)
+	.Build(columns =>
+	{
+		columns.Add(model => model.Id).Titled("ID");
+		columns.Add(model => model.Date).Titled("Date");
+		columns.Add(model => model.SiteUrl).Titled("Site URL");
+	})
+	.Using(GridFilterMode.Header)
+	.Empty("No data found")
+	.Filterable()
+	.Sortable()
+	.Pageable()
+	.Css("css-classes")
+	.AppendCss("table-hover")
 )
+
+<script>
+	document.addEventListener("rowclick", e => {
+		$.get("Home/TestResults", { testID: e.detail.data.Id }, function (data) {
+			document.write(data);
+		})
+	});
+</script>
