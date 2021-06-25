@@ -36,5 +36,10 @@ namespace WebCrawler.Model
 		{
 			return _testsRepository.GetAll();
 		}
+
+		public PerformanceTest GetLastTest()
+		{
+			return _testsRepository.Include(p => p.UrlResponseTimes).OrderBy(s=>s.Id).Last();
+		}
 	}
 }

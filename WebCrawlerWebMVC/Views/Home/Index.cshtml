@@ -17,7 +17,7 @@
 	@using (Html.BeginForm("TestResults", "Home", FormMethod.Get, new { id = "TestResult" }))
 	{
 		<p>Get Test Results by Id:</p>
-		<input size="60" type="number" required name="testId" />
+		<input type="number" required name="testId" />
 		<input type="submit" value="Test" />
 	}
 	<br />
@@ -42,8 +42,6 @@
 
 <script>
 	document.addEventListener("rowclick", e => {
-		var form = document.getElementById("TestResult");
-		form[0].value = e.detail.data.Id
-		form.submit()
+		window.location.href = document.getElementById("TestResult").action + "?testId=" + e.detail.data.Id 
 	});
 </script>

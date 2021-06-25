@@ -8,8 +8,8 @@
 	@using (Html.BeginForm("TestResults", "Home", FormMethod.Get))
 	{
 		<p>Enter test ID:</p>
-		<input size="60" type="number" required name="testId" />
-		<input type="submit" value="Test" />
+		<input type="number" required name="testId" />
+		<input type="submit" value="Enter" />
 	}
 	<br />
 	@using (Html.BeginForm("Index", "Home", FormMethod.Get))
@@ -44,6 +44,7 @@
 	})
 	.Using(GridFilterMode.Header)
 	.Empty("No data found")
+	.Named("Timing")
 	.Filterable()
 	.Sortable()
 	.Pageable()
@@ -54,7 +55,7 @@
 		<br/>
 		<h4>URL NOT FOUND AT WEBSITE</h4>
 		@(Html
-	.Grid(resuts)
+	.Grid(resuts.Where(s => !s.InSitePage))
 	.Build(columns =>
 	{
 		columns.Add(model => model.Id).Titled("ID");
@@ -62,6 +63,7 @@
 	})
 	.Using(GridFilterMode.Header)
 	.Empty("No data found")
+	.Named("SitemapOnly")
 	.Filterable()
 	.Sortable()
 	.Pageable()
@@ -72,7 +74,7 @@
 		<br/>
 		<h4>URL NOT FOUND AT SITEMAP</h4>
 		@(Html
-	.Grid(resuts)
+	.Grid(resuts.Where(s => !s.InSitemap))
 	.Build(columns =>
 	{
 		columns.Add(model => model.Id).Titled("ID");
@@ -80,6 +82,7 @@
 	})
 	.Using(GridFilterMode.Header)
 	.Empty("No data found")
+	.Named("SitePageOnly")
 	.Filterable()
 	.Sortable()
 	.Pageable()

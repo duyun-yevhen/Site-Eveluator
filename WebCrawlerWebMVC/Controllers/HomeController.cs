@@ -36,14 +36,13 @@ namespace WebCrawlerWebMVC.Controllers
 			List<UrlPerformanseTestResult> results = null;
 			await Task.Run(() =>
 				{
-					ViewBag.StartUrl = url;
 					results = _siteCrawlerWorker.GetAllLinks(url);
-					_siteCrawlerWorker.RequestUrlsForSetResponseTimes(results);
-					ViewBag.PerfomanseResult = results;
+					_siteCrawlerWorker.RequestUrlsForSetResponseTimes(results, timeout:1000);
 				});
 
 			await _dbWorker.SaveResultAsync(url, results);
-			return View("Index");
+			ViewBag.TestResult = _dbWorker.GetLastTest();
+			return View("TestResults");
 		}
 
 		[HttpGet]
