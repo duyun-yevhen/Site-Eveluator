@@ -34,14 +34,14 @@ namespace WebCrawler.Tests
 
 			var expected = new List<Uri>() { new Uri("http://test.com/sitemapTXT") };
 			parserMock.Setup(a => a.GetUrlsFromSitemapTXT(It.IsAny<string>())).Returns(expected);
-			
+
 			// act
-			var actual = sitemapCrawler.GetSitesFromSitemap(new List<Uri>(){new Uri("http://test.com/sitemap.txt")});
+			var actual = sitemapCrawler.GetSitesFromSitemap(new List<Uri>() { new Uri("http://test.com/sitemap.txt") });
 
 			// assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void SitemapCrawler_FindSitemapXMLLinks()
 		{

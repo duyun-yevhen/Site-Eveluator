@@ -19,75 +19,12 @@
 </div>
 
 <div>
-	@if (ViewBag.TestResult != null)
-	{
-		WebCrawler.Model.PerformanceTest test = ViewBag.TestResult;
-		var resuts = test.UrlResponseTimes;
-
-		<h4>
-			<br/>Performanse
-			<br/>ID: @test.Id
-			<br/>Date: @test.Date
-			<br/>@test.SiteUrl
-		</h4>
-		<br />
-		@(Html
-	.Grid(resuts)
-	.Build(columns =>
-	{
-		columns.Add(model => model.Id).Titled("ID");
-		columns.Add(model => model.ResponseTime).Titled("ResponseTime");
-		columns.Add(model => model.InSitemap).Titled("In Sitemap");
-		columns.Add(model => model.InSitePage).Titled("In Site Page");
-
-		columns.Add(model => model.Url).Titled("Page URL");
-	})
-	.Using(GridFilterMode.Header)
-	.Empty("No data found")
-	.Named("Timing")
-	.Filterable()
-	.Sortable()
-	.Pageable()
-	.Css("css-classes")
-	.AppendCss("table-hover")
-	)
-
-		<br/>
-		<h4>URL NOT FOUND AT WEBSITE</h4>
-		@(Html
-	.Grid(resuts.Where(s => !s.InSitePage))
-	.Build(columns =>
-	{
-		columns.Add(model => model.Id).Titled("ID");
-		columns.Add(model => model.Url).Titled("Page URL");
-	})
-	.Using(GridFilterMode.Header)
-	.Empty("No data found")
-	.Named("SitemapOnly")
-	.Filterable()
-	.Sortable()
-	.Pageable()
-	.Css("css-classes")
-	.AppendCss("table-hover")
-	)
-
-		<br/>
-		<h4>URL NOT FOUND AT SITEMAP</h4>
-		@(Html
-	.Grid(resuts.Where(s => !s.InSitemap))
-	.Build(columns =>
-	{
-		columns.Add(model => model.Id).Titled("ID");
-		columns.Add(model => model.Url).Titled("Page URL");
-	})
-	.Using(GridFilterMode.Header)
-	.Empty("No data found")
-	.Named("SitePageOnly")
-	.Filterable()
-	.Sortable()
-	.Pageable()
-	.Css("css-classes")
-	.AppendCss("table-hover")
-	)
-	}
+    @if (ViewBag.TestResult == null)
+    {
+    <br /><h4 class=" text-center">Test not Found. Please check if ID is correct:</h4>
+    }
+    else
+    {
+		@await Html.PartialAsync("_ResultsTable")
+    }
 </div>

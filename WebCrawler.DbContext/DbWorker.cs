@@ -23,14 +23,14 @@ namespace WebCrawler.Model
 			_testsRepository.Add(test);
 			await _testsRepository.SaveChangesAsync();
 
-			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p;})); ;
+			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p; })); ;
 			await _urlResponseTimeRepository.SaveChangesAsync();
 			return test.Id;
 		}
 
 		public PerformanceTest GetResultsByTestID(int testID)
 		{
-			return _testsRepository.Include(p => p.UrlResponseTimes).FirstOrDefault(s => s.Id == testID); 
+			return _testsRepository.Include(p => p.UrlResponseTimes).FirstOrDefault(s => s.Id == testID);
 		}
 
 		public IQueryable<PerformanceTest> GetTests()
@@ -40,7 +40,7 @@ namespace WebCrawler.Model
 
 		public PerformanceTest GetLastTest()
 		{
-			return _testsRepository.Include(p => p.UrlResponseTimes).OrderBy(s=>s.Id).Last();
+			return _testsRepository.Include(p => p.UrlResponseTimes).OrderBy(s => s.Id).Last();
 		}
 	}
 }

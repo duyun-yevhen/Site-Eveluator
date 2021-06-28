@@ -29,7 +29,7 @@ namespace WebCrawler.Logic
 			foreach (var map in sitemaps)
 			{
 				string site = _siteRequest.DownloadSite(map);
-				if (map.ToString().EndsWith(".xml")|| map.ToString().EndsWith(".xml.gz"))
+				if (map.ToString().EndsWith(".xml") || map.ToString().EndsWith(".xml.gz"))
 				{
 					sitemapUrls.AddRange(_parser.GetUrlsFromSitemapXML(site));
 				}

@@ -8,7 +8,7 @@ namespace WebCrawler.Logic
 	{
 		public virtual List<Uri> GetUrlsFromSitemapXML(string siteTXT)
 		{
-		
+
 			List<Uri> urlList = new List<Uri>();
 			if (siteTXT == null)
 				return urlList;
@@ -55,7 +55,7 @@ namespace WebCrawler.Logic
 		public virtual List<Uri> GetSitemapsFromRobotsTxt(string site)
 		{
 			List<Uri> sitemaps = new List<Uri>();
-			if(site==null)
+			if (site == null)
 			{
 				return sitemaps;
 			}
@@ -67,7 +67,7 @@ namespace WebCrawler.Logic
 			{
 				sitemaps.Add(new Uri(lines[i + 1], UriKind.RelativeOrAbsolute));
 				i = lines.FindIndex(i + 1, p => p.StartsWith("Sitemap:"));
-			} 
+			}
 
 			return sitemaps;
 		}

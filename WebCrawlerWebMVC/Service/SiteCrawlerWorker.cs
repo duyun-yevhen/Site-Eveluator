@@ -5,7 +5,7 @@ using System.Threading;
 using WebCrawler.Logic;
 using WebCrawler.Model;
 
-namespace WebCrawlerWebMVC
+namespace WebCrawler.WebApplication
 {
 	public class SiteCrawlerWorker
 	{

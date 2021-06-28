@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Win32Resource></Win32Resource>
+    <RootNamespace>WebCrawler.WebApplication</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

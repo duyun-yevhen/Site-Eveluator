@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebCrawler.Model;
-using WebCrawlerWebMVC.Models;
+using WebCrawler.WebApplication.Models;
 
-namespace WebCrawlerWebMVC.Controllers
+namespace WebCrawler.WebApplication.Controllers
 {
 	public class HomeController : Controller
 	{

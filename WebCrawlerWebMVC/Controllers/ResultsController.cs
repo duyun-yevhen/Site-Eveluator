@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebCrawler.Model;
-using WebCrawlerWebMVC.Models;
+using WebCrawler.WebApplication.Models;
 
-namespace WebCrawlerWebMVC.Controllers
+namespace WebCrawler.WebApplication.Controllers
 {
 	public class ResultsController : Controller
 	{
@@ -26,7 +24,7 @@ namespace WebCrawlerWebMVC.Controllers
 		public async Task<IActionResult> TestResults(int testID)
 		{
 			await Task.Run(() =>
-			{ 
+			{
 				var test = _dbWorker.GetResultsByTestID(testID);
 				var results = _dbWorker.GetResultsByTestID(testID);
 				ViewBag.TestResult = results;

@@ -1,12 +1,10 @@
 ﻿using Moq;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using WebCrawler.ConsoleApp;
-using Xunit;
 using System.Data;
+using System.Threading;
 using WebCrawler.Model;
-using System.Collections;
+using Xunit;
 
 namespace WebCrawler.Tests
 {
@@ -26,7 +24,7 @@ namespace WebCrawler.Tests
 			// assert
 			testsRepositoryMock.Verify(a => a.Add(It.IsAny<PerformanceTest>()), Times.Once());
 			testsRepositoryMock.Verify(a => a.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
-			
+
 			urlResponseTimeRepositoryMock.Verify(a => a.AddRange(It.IsAny<IEnumerable<UrlPerformanseTestResult>>()), Times.Once());
 			urlResponseTimeRepositoryMock.Verify(a => a.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
 		}
