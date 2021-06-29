@@ -24,28 +24,17 @@ namespace WebCrawler.WebApplication.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			ViewBag.Tests = _dbWorker.GetTests();
-			return View();
+			return View(_dbWorker.GetTests());
 		}
 
 		[HttpGet]
 		public async Task<int> GetPerformance(Uri url)
 		{
-			List<UrlPerformanseTestResult> results = null;
-			await Task.Run(() =>
-				{
-					results = _siteCrawlerWorker.GetAllLinks(url);
-					_siteCrawlerWorker.RequestUrlsForSetResponseTimes(results, timeout: 1000);
-				});
-			return await _dbWorker.SaveResultAsync(url, results);
+			return await _dbWorker.SaveResultAsync(url, _siteCrawlerWorker.DoWorkAsync(url).Result);
 		}
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()

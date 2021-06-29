@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebCrawler.Model.PerformanceTest
+@{
 	ViewData["Title"] = "Home Page";
 }
 
@@ -19,12 +20,12 @@
 </div>
 
 <div>
-    @if (ViewBag.TestResult == null)
+    @if (Model == null)
     {
-    <br /><h4 class=" text-center">Test not Found. Please check if ID is correct:</h4>
+		<p class="text-center"><big>Test not Found. Please check if ID is correct:</big></p>
     }
     else
     {
-		@await Html.PartialAsync("_ResultsTable")
+		@await Html.PartialAsync("_ResultsTables")
     }
 </div>

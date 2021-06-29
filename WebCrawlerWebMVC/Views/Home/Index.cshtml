@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IQueryable<WebCrawler.Model.PerformanceTest>;
+@{
 	ViewData["Title"] = "Home Page";
 }
 
@@ -6,7 +7,7 @@
 	<h1 class="display-4">Site Performance Test</h1>
 
 	<br />
-	@using (Html.BeginForm("GetPerformance", "Home", FormMethod.Get, new { onsubmit = "return Start(this[0].value)", id="PerformanceTest"}))
+	@using (Html.BeginForm("GetPerformance", "Home", FormMethod.Get, new { onsubmit = "return Start(this[0].value)", id = "PerformanceTest" }))
 	{
 		<p>Enter site URL:</p>
 		<input size="60" type="url" required name="url" />
@@ -24,7 +25,7 @@
 </div>
 
 @(Html
-	.Grid((IQueryable<WebCrawler.Model.PerformanceTest>)ViewBag.Tests)
+	.Grid(Model)
 	.Build(columns =>
 	{
 		columns.Add(model => model.Id).Titled("ID");
@@ -42,23 +43,23 @@
 
 <script>
 	document.addEventListener("rowclick", e => {
-		window.location.href = document.getElementById("TestResult").action + "?testId=" + e.detail.data.Id 
+		if (document.getSelection().toString().length == 0)
+		{
+			window.location.href = document.getElementById("TestResult").action + "?testId=" + e.detail.data.Id
+		}
 	});
 </script>
 
-<script>	
-		function Start(url) {
-			alert('Site Crawler Started');
-			var request = new XMLHttpRequest();
-			request.open('GET', document.getElementById("PerformanceTest").action + "?url=" + url, true);
-			request.onload  = function () {
-				if (request.status == 200) {
-					window.open(document.getElementById("TestResult").action + "?testId=" + request.response);
-				}
+<script>
+	function Start(url) {
+		var request = new XMLHttpRequest();
+		request.open('GET', document.getElementById("PerformanceTest").action + "?url=" + url, true);
+		request.onload = function () {
+			if (request.status == 200) {
+				window.open(document.getElementById("TestResult").action + "?testId=" + request.response);
 			}
-		
-			request.send();
-			return false;
+		}
+		request.send();
+		return false;
 	}
-
 </script>

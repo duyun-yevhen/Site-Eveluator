@@ -19,17 +19,10 @@ namespace WebCrawler.WebApplication.Controllers
 			_dbWorker = dbWorker;
 		}
 
-
 		[HttpGet]
 		public async Task<IActionResult> TestResults(int testID)
-		{
-			await Task.Run(() =>
-			{
-				var test = _dbWorker.GetResultsByTestID(testID);
-				var results = _dbWorker.GetResultsByTestID(testID);
-				ViewBag.TestResult = results;
-			});
-			return View();
+		{			
+			return View(_dbWorker.GetResultsByTestID(testID));
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

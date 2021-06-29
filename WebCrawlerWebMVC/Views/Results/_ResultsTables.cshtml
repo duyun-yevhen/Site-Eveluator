@@ -1,14 +1,16 @@
 ﻿@{
-    WebCrawler.Model.PerformanceTest test = ViewBag.TestResult;
+    WebCrawler.Model.PerformanceTest test = Model;
     var resuts = test.UrlResponseTimes;
 
-    <h4>
-        <br />Performanse
-        <br />Test ID: @test.Id
-        <br />Date: @test.Date
-        <br />URL: @test.SiteUrl
-    </h4>
-    <br />
+	<p>
+		<big>
+			<br />Performanse
+			<br />Test ID: @test.Id
+			<br />Date: @test.Date
+			<br />URL: @test.SiteUrl
+			<br />Total links: @resuts.Count
+		</big>
+	</p>
     @(Html
 	.Grid(resuts)
 	.Build(columns =>
@@ -31,7 +33,7 @@
 	)
 
     <br />
-    <h4>URL NOT FOUND AT WEBSITE</h4>
+    <p><big>URL NOT FOUND AT WEBSITE: @resuts.Where(s => !s.InSitePage).Count()</big></p>
     @(Html
 	.Grid(resuts.Where(s => !s.InSitePage))
 	.Build(columns =>
@@ -50,7 +52,7 @@
 	)
 
     <br />
-    <h4>URL NOT FOUND AT SITEMAP</h4>
+	<p><big>URL NOT FOUND AT SITEMAP: @resuts.Where(s => !s.InSitemap).Count()</big></p>
     @(Html
 	.Grid(resuts.Where(s => !s.InSitemap))
 	.Build(columns =>
