@@ -1,4 +1,4 @@
-﻿@model IQueryable<WebCrawler.Model.PerformanceTest>;
+﻿@model IEnumerable<WebCrawler.Model.PerformanceTest>;
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -56,7 +56,10 @@
 		request.open('GET', document.getElementById("PerformanceTest").action + "?url=" + url, true);
 		request.onload = function () {
 			if (request.status == 200) {
-				window.open(document.getElementById("TestResult").action + "?testId=" + request.response);
+				result = confirm("Performance Test for " + url + " is ready. Go to the result page?");
+				if (result) {
+					window.open(document.getElementById("TestResult").action + "?testId=" + request.response);
+				}
 			}
 		}
 		request.send();

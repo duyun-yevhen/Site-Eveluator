@@ -5,13 +5,13 @@ namespace WebCrawler.ConsoleApp
 {
 	public class SiteCrawlerConsoleAppUI
 	{
-		private readonly SiteCrawlerWorker _crawlerWorker = new SiteCrawlerWorker();
+		private readonly SiteCrawlerUIWorker _crawlerWorker;
 		private readonly DbWorker _dbWorker;
-		private readonly int TIMEOUT = 300;
 
-		public SiteCrawlerConsoleAppUI(DbWorker dbWorker)
+		public SiteCrawlerConsoleAppUI(DbWorker dbWorker, SiteCrawlerUIWorker crawlerWorker)
 		{
 			_dbWorker = dbWorker;
+			_crawlerWorker = crawlerWorker;
 		}
 
 		public void DoWork()
@@ -26,8 +26,7 @@ namespace WebCrawler.ConsoleApp
 				if (Uri.TryCreate(input, UriKind.Absolute, out Uri url))
 				{
 					Console.Clear();
-					var result = _crawlerWorker.GetAllLinks(url);
-					_crawlerWorker.RequestUrlsForSetResponseTimes(result, TIMEOUT);
+					var result = _crawlerWorker.DoWork(url);
 
 					_crawlerWorker.PrintSitemapResult(result);
 					_crawlerWorker.PrintSitePageResult(result);

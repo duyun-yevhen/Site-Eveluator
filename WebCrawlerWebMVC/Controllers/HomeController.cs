@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using WebCrawler.Logic;
 using WebCrawler.Model;
 using WebCrawler.WebApplication.Models;
 
@@ -14,11 +13,9 @@ namespace WebCrawler.WebApplication.Controllers
 		private readonly DbWorker _dbWorker;
 		private readonly SiteCrawlerWorker _siteCrawlerWorker;
 
-		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger, DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
+		public HomeController(DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
 		{
-			_logger = logger;
 			_dbWorker = dbWorker;
 			_siteCrawlerWorker = siteCrawlerWorker;
 		}

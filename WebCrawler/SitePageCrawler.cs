@@ -18,10 +18,10 @@ namespace WebCrawler.Logic
 			_siteRequest = siteRequest;
 		}
 
-		public virtual List<Uri> FindPageChildrenLinks(Uri pageUrl)
+		public virtual IEnumerable<Uri> FindPageChildrenLinks(Uri pageUrl)
 		{
 			string page = _siteRequest.DownloadSite(pageUrl);
-			List<Uri> pageLinks = _siteParser.ParseAllChildrenLinks(page, pageUrl);
+			IEnumerable<Uri> pageLinks = _siteParser.ParseAllChildrenLinks(page, pageUrl);
 
 			return pageLinks;
 		}

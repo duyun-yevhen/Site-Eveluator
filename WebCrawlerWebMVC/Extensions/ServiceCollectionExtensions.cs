@@ -4,7 +4,7 @@ using WebCrawler.Model;
 
 namespace WebCrawler.WebApplication
 {
-    public static class IServiceCollectionExtension
+    public static class ServiceCollectionExtension
     {
         public static void AddWebCrawlerLogicServices(this IServiceCollection services)
         {

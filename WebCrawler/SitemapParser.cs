@@ -6,7 +6,7 @@ namespace WebCrawler.Logic
 {
 	public class SitemapParser
 	{
-		public virtual List<Uri> GetUrlsFromSitemapXML(string siteTXT)
+		public virtual IEnumerable<Uri> GetUrlsFromSitemapXML(string siteTXT)
 		{
 
 			List<Uri> urlList = new List<Uri>();
@@ -39,7 +39,7 @@ namespace WebCrawler.Logic
 			return urlList;
 		}
 
-		public virtual List<Uri> GetUrlsFromSitemapTXT(string siteXML)
+		public virtual IEnumerable<Uri> GetUrlsFromSitemapTXT(string siteXML)
 		{
 			string[] sites = siteXML.Split('\n');
 			List<Uri> urlList = new List<Uri>(sites.Length);
@@ -52,7 +52,7 @@ namespace WebCrawler.Logic
 			return urlList;
 		}
 
-		public virtual List<Uri> GetSitemapsFromRobotsTxt(string site)
+		public virtual IEnumerable<Uri> GetSitemapsFromRobotsTxt(string site)
 		{
 			List<Uri> sitemaps = new List<Uri>();
 			if (site == null)

@@ -18,12 +18,12 @@ namespace WebCrawler.Logic
 			_siteRequest = siteRequest;
 		}
 
-		public virtual List<Uri> GetSitemaps(Uri url)
+		public virtual IEnumerable<Uri> GetSitemaps(Uri url)
 		{
 			return _parser.GetSitemapsFromRobotsTxt(_siteRequest.DownloadSite(new Uri(url + "robots.txt")));
 		}
 
-		public virtual List<Uri> GetSitesFromSitemap(List<Uri> sitemaps)
+		public virtual IEnumerable<Uri> GetSitesFromSitemap(IEnumerable<Uri> sitemaps)
 		{
 			List<Uri> sitemapUrls = new List<Uri>();
 			foreach (var map in sitemaps)

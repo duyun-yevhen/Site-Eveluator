@@ -34,7 +34,7 @@ namespace WebCrawler.Tests
 			};
 
 			// act
-			List<Uri> actual = parser.ParseAllChildrenLinks(site, new Uri("http://test.com/"));
+			IEnumerable<Uri> actual = parser.ParseAllChildrenLinks(site, new Uri("http://test.com/"));
 			// assert
 			Assert.Equal(expected, actual);
 		}

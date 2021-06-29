@@ -11,11 +11,8 @@ namespace WebCrawler.WebApplication.Controllers
 	{
 		private readonly DbWorker _dbWorker;
 
-		private readonly ILogger<HomeController> _logger;
-
-		public ResultsController(ILogger<HomeController> logger, DbWorker dbWorker)
+		public ResultsController(DbWorker dbWorker)
 		{
-			_logger = logger;
 			_dbWorker = dbWorker;
 		}
 

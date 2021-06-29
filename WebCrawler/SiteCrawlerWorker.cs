@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebCrawler.Logic;
 using WebCrawler.Model;
 
-namespace WebCrawler.WebApplication
+namespace WebCrawler.Logic
 {
 	public class SiteCrawlerWorker
 	{
@@ -21,9 +21,9 @@ namespace WebCrawler.WebApplication
 			_sitemapCrawler = sitemapCrawler;
 		}
 
-		public async Task<List<UrlPerformanseTestResult>> DoWorkAsync(Uri url, int querydDelay = 500)
+		public async Task<IEnumerable<UrlPerformanseTestResult>> DoWorkAsync(Uri url, int querydDelay = 500)
 		{
-			List<UrlPerformanseTestResult> results = null;
+			IEnumerable<UrlPerformanseTestResult> results = null;
 			await Task.Run(() =>
 			{
 				results = GetAllLinks(url);
@@ -32,7 +32,7 @@ namespace WebCrawler.WebApplication
 			return results;
 		}
 
-		private List<UrlPerformanseTestResult> GetAllLinks(Uri url)
+		private IEnumerable<UrlPerformanseTestResult> GetAllLinks(Uri url)
 		{
 			var sitemapLinks = _sitemapCrawler.GetSitesFromSitemap(_sitemapCrawler.GetSitemaps(new Uri("http://" + url.Host)));
 			var pageLinks = _sitepageCrawler.FindPageChildrenLinks(url);
@@ -50,14 +50,14 @@ namespace WebCrawler.WebApplication
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		private void RequestUrlsForSetResponseTimes(List<UrlPerformanseTestResult> urls, int querydDelay = 500, int timeout = 1000)
+		private void RequestUrlsForSetResponseTimes(IEnumerable<UrlPerformanseTestResult> urls, int querydDelay = 500, int timeout = 1000)
 		{
 			foreach (var link in urls)
 			{
 				link.ResponseTime = _siteRequest.GetUrlResponseTime(link.Url, timeout);
 				Thread.Sleep(querydDelay);
 			}
-			urls.Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
+			((List<UrlPerformanseTestResult>)urls).Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
 		}
 	}
 }

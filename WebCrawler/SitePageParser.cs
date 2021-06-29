@@ -5,7 +5,7 @@ namespace WebCrawler.Logic
 {
 	public class SitePageParser
 	{
-		public virtual List<Uri> ParseAllChildrenLinks(string site, Uri siteUrl)
+		public virtual IEnumerable<Uri> ParseAllChildrenLinks(string site, Uri siteUrl)
 		{
 			List<Uri> urlList = new List<Uri>();
 			int pos = 0;

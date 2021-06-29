@@ -28,7 +28,7 @@ namespace WebCrawler.Tests
 			};
 
 			// act
-			List<Uri> actual = parser.GetSitemapsFromRobotsTxt(robotsTxt);
+			IEnumerable<Uri> actual = parser.GetSitemapsFromRobotsTxt(robotsTxt);
 			// assert
 			Assert.Equal(expected, actual);
 		}
@@ -40,14 +40,14 @@ namespace WebCrawler.Tests
 			var parser = new SitemapParser();
 			string siteMap = "http://test.com/dog.html \n" +
 							"http://test.com/cat.html";
-			List<Uri> expected = new List<Uri>
+			IEnumerable<Uri> expected = new List<Uri>
 			{
 				new Uri("http://test.com/dog.html"),
 				new Uri("http://test.com/cat.html"),
 			};
 
 			// act
-			List<Uri> actual = parser.GetUrlsFromSitemapTXT(siteMap);
+			IEnumerable<Uri> actual = parser.GetUrlsFromSitemapTXT(siteMap);
 			// assert
 			Assert.Equal(expected, actual);
 		}
@@ -73,14 +73,14 @@ namespace WebCrawler.Tests
 								"</sitemap>\n" +
 								"</urlset>";
 
-			List<Uri> expected = new List<Uri>
+			IEnumerable<Uri> expected = new List<Uri>
 			{
 				new Uri("http://www.example.com/sitemap.xml"),
 				new Uri("http://www.example.com/sitemap.txt"),
 			};
 
 			// act
-			List<Uri> actual = parser.GetUrlsFromSitemapXML(siteMap);
+			IEnumerable<Uri> actual = parser.GetUrlsFromSitemapXML(siteMap);
 			// assert
 			Assert.Equal(expected, actual);
 		}

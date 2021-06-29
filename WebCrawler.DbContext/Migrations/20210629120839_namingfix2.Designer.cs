@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCrawler.Model;
 
 namespace WebCrawler.Model.Migrations
 {
     [DbContext(typeof(WebCrawlerDbContext))]
-    partial class WebCrawlerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629120839_namingfix2")]
+    partial class namingfix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
