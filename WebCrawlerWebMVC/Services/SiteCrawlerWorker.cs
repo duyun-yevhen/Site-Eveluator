@@ -21,13 +21,13 @@ namespace WebCrawler.WebApplication
 			_sitemapCrawler = sitemapCrawler;
 		}
 
-		public async Task<List<UrlPerformanseTestResult>> DoWorkAsync(Uri url)
+		public async Task<List<UrlPerformanseTestResult>> DoWorkAsync(Uri url, int querydDelay = 500)
 		{
 			List<UrlPerformanseTestResult> results = null;
 			await Task.Run(() =>
 			{
 				results = GetAllLinks(url);
-				RequestUrlsForSetResponseTimes(results, timeout: 1000);
+				RequestUrlsForSetResponseTimes(results, querydDelay, 1000);
 			});
 			return results;
 		}

@@ -26,13 +26,16 @@ namespace WebCrawler.WebApplication.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			return View(_dbWorker.GetTests());
+			return View(await _dbWorker.GetTestsAsync());
 		}
 
 		[HttpGet]
 		public async Task<int> GetPerformance(Uri url)
 		{
-			return await _dbWorker.SaveResultAsync(url, _siteCrawlerWorker.DoWorkAsync(url).Result);
+			var result = await _siteCrawlerWorker.DoWorkAsync(url, 250);
+			int id = await _dbWorker.SaveResultAsync(url, result);
+
+			return id;
 		}
 
 

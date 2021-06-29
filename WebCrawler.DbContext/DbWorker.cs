@@ -28,14 +28,24 @@ namespace WebCrawler.Model
 			return test.Id;
 		}
 
-		public PerformanceTest GetResultsByTestID(int testID)
+		public async Task<PerformanceTest> GetResultsByTestIDAsync(int testID)
 		{
-			return _testsRepository.Include(p => p.UrlResponseTimes).FirstOrDefault(s => s.Id == testID);
+			PerformanceTest result = null;
+			await Task.Run(() =>
+			{
+				result = _testsRepository.Include(p => p.UrlResponseTimes).FirstOrDefault(s => s.Id == testID);
+			});
+			return result;
 		}
 
-		public IQueryable<PerformanceTest> GetTests()
+		public async Task<IQueryable<PerformanceTest>> GetTestsAsync()
 		{
-			return _testsRepository.GetAll();
+			IQueryable<PerformanceTest> result = null;
+			await Task.Run(() =>
+			{
+				result = _testsRepository.GetAll();
+			});
+			return result;
 		}
 
 		public PerformanceTest GetLastTest()
