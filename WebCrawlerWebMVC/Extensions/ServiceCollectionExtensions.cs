@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebCrawler.Logic;
 using WebCrawler.Model;
+using WebCrawler.WebApplication.Services;
 
 namespace WebCrawler.WebApplication
 {
@@ -16,6 +17,7 @@ namespace WebCrawler.WebApplication
 			services.AddScoped<SiteRequest>();
 			services.AddScoped<SitepageCrawler>();
 			services.AddScoped<SitemapCrawler>();
+			services.AddScoped<SitePefrormanseService>();
 		}
     }
 }

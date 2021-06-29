@@ -5,33 +5,33 @@ using System.Threading.Tasks;
 using WebCrawler.Logic;
 using WebCrawler.Model;
 using WebCrawler.WebApplication.Models;
+using WebCrawler.WebApplication.Services;
 
 namespace WebCrawler.WebApplication.Controllers
 {
 	public class HomeController : Controller
 	{
 		private readonly DbWorker _dbWorker;
-		private readonly SiteCrawlerWorker _siteCrawlerWorker;
+		private readonly SitePefrormanseService _sitePefrormanseService;
 
 
-		public HomeController(DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
+		public HomeController(DbWorker dbWorker, SitePefrormanseService sitePefrormanseService)
 		{
 			_dbWorker = dbWorker;
-			_siteCrawlerWorker = siteCrawlerWorker;
+			_sitePefrormanseService = sitePefrormanseService;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			return View(await _dbWorker.GetTestsAsync());
+			var result = await _dbWorker.GetTestsAsync();
+			return View(result);
 		}
 
 		[HttpGet]
 		public async Task<int> GetPerformance(Uri url)
 		{
-			var result = await _siteCrawlerWorker.DoWorkAsync(url, 250);
-			int id = await _dbWorker.SaveResultAsync(url, result);
-
+			var id = await _sitePefrormanseService.GetSitePefrormanseAsync(url);
 			return id;
 		}
 

@@ -19,7 +19,8 @@ namespace WebCrawler.WebApplication.Controllers
 		[HttpGet]
 		public async Task<IActionResult> TestResults(int testID)
 		{
-			return View(await _dbWorker.GetResultsByTestIDAsync(testID));
+			var result = await _dbWorker.GetResultsByTestIDAsync(testID);
+			return View(result);
 		} 
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
