@@ -19,8 +19,8 @@ namespace WebCrawler.WebApplication.Services
 
 		public virtual async Task<int> GetSitePefrormanseAsync(Uri url)
 		{
-			var siteResult =  _siteCrawlerWorker.DoWorkAsync(url, 250);
-
+			var siteResult =  _siteCrawlerWorker.DoWorkAsync(url, 250); 
+			 
 			return await _dbWorker.SaveResultAsync(url, siteResult);
 		}
 	}

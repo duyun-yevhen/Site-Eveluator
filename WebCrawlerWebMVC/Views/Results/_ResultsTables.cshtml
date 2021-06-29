@@ -3,13 +3,11 @@
     var resuts = test.UrlTestResults;
 
 	<p>
-		<big>
 			<br />Performanse
 			<br />Test ID: @test.Id
 			<br />Date: @test.Date
 			<br />URL: @test.SiteUrl
 			<br />Total links: @resuts.Count
-		</big>
 	</p>
     @(Html
 	.Grid(resuts)
@@ -33,7 +31,7 @@
 	)
 
     <br />
-    <p><big>URL NOT FOUND AT WEBSITE: @resuts.Where(s => !s.InSitePage).Count()</big></p>
+    <p>URL NOT FOUND AT WEBSITE: @resuts.Where(s => !s.InSitePage).Count()</p>
     @(Html
 	.Grid(resuts.Where(s => !s.InSitePage))
 	.Build(columns =>
@@ -52,7 +50,7 @@
 	)
 
     <br />
-	<p><big>URL NOT FOUND AT SITEMAP: @resuts.Where(s => !s.InSitemap).Count()</big></p>
+	<p>URL NOT FOUND AT SITEMAP: @resuts.Where(s => !s.InSitemap).Count()</p>
     @(Html
 	.Grid(resuts.Where(s => !s.InSitemap))
 	.Build(columns =>
