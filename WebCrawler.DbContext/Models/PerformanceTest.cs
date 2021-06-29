@@ -11,6 +11,6 @@ namespace WebCrawler.Model
 		[MaxLength(2048)]
 		public Uri SiteUrl { get; set; }
 		public DateTime Date { get; set; }
-		public List<UrlPerformanseTestResult> UrlTestResults { get; set; }
+		public List<PerformanseResult> UrlTestResults { get; set; }
 	}
 }

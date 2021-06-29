@@ -20,6 +20,7 @@ namespace WebCrawler.WebApplication.Controllers
 		public async Task<IActionResult> TestResults(int testID)
 		{
 			var result = await _dbWorker.GetResultsByTestIDAsync(testID);
+
 			return View(result);
 		} 
 

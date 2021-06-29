@@ -15,17 +15,17 @@ namespace WebCrawler.Tests
 		{
 			// arrange
 			var testsRepositoryMock = new Mock<IRepository<PerformanceTest>>();
-			var urlResponseTimeRepositoryMock = new Mock<IRepository<UrlPerformanseTestResult>>();
+			var urlResponseTimeRepositoryMock = new Mock<IRepository<PerformanseResult>>();
 			var dBWorker = new DbWorker(testsRepositoryMock.Object, urlResponseTimeRepositoryMock.Object);
 
 			// act
-			dBWorker.SaveResultAsync(new Uri("http://test.com"), new List<UrlPerformanseTestResult>() { new UrlPerformanseTestResult(), new UrlPerformanseTestResult() });
+			dBWorker.SaveResultAsync(new Uri("http://test.com"), new List<PerformanseResult>() { new PerformanseResult(), new PerformanseResult() });
 
 			// assert
 			testsRepositoryMock.Verify(a => a.Add(It.IsAny<PerformanceTest>()), Times.Once());
 			testsRepositoryMock.Verify(a => a.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
 
-			urlResponseTimeRepositoryMock.Verify(a => a.AddRange(It.IsAny<IEnumerable<UrlPerformanseTestResult>>()), Times.Once());
+			urlResponseTimeRepositoryMock.Verify(a => a.AddRange(It.IsAny<IEnumerable<PerformanseResult>>()), Times.Once());
 			urlResponseTimeRepositoryMock.Verify(a => a.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
 		}
 	}

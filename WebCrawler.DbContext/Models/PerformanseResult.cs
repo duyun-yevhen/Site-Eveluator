@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebCrawler.Model
 {
-	public class UrlPerformanseTestResult
+	public class PerformanseResult
 	{
 		public int Id { get; set; }
 

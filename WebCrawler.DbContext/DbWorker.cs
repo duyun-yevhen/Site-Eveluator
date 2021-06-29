@@ -9,15 +9,15 @@ namespace WebCrawler.Model
 	public class DbWorker
 	{
 		private readonly IRepository<PerformanceTest> _testsRepository;
-		private readonly IRepository<UrlPerformanseTestResult> _urlResponseTimeRepository;
+		private readonly IRepository<PerformanseResult> _urlResponseTimeRepository;
 
-		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<UrlPerformanseTestResult> urlResponseTimeRepository)
+		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<PerformanseResult> urlResponseTimeRepository)
 		{
 			_testsRepository = testsRepository;
 			_urlResponseTimeRepository = urlResponseTimeRepository;
 		}
 
-		public virtual async Task<int> SaveResultAsync(Uri siteUrl, IEnumerable<UrlPerformanseTestResult> urlResponseTimes)
+		public virtual async Task<int> SaveResultAsync(Uri siteUrl, IEnumerable<PerformanseResult> urlResponseTimes)
 		{
 			var test = new PerformanceTest() { SiteUrl = siteUrl };
 
@@ -25,7 +25,8 @@ namespace WebCrawler.Model
 
 			await _testsRepository.SaveChangesAsync();
 
-			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p; }).OrderBy(s=>s.ResponseTime));
+			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p; })
+									  .OrderBy(s => s.ResponseTime));
 
 			await _urlResponseTimeRepository.SaveChangesAsync();
 
@@ -38,7 +39,8 @@ namespace WebCrawler.Model
 
 			await Task.Run(() =>
 			{
-				result = _testsRepository.Include(p => p.UrlTestResults).FirstOrDefault(s => s.Id == testID);
+				result = _testsRepository.Include(p => p.UrlTestResults)
+										 .FirstOrDefault(s => s.Id == testID);
 			});
 
 			return result;
@@ -52,6 +54,7 @@ namespace WebCrawler.Model
 			{
 				result = _testsRepository.GetAll().ToList();
 			});
+
 			return result;
 		}
 

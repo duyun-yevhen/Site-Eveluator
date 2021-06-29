@@ -7,7 +7,7 @@ namespace WebCrawler.Model
 	public class WebCrawlerDbContext : DbContext, IEfRepositoryDbContext
 	{
 		public DbSet<PerformanceTest> PerformanceTests { get; set; }
-		public DbSet<UrlPerformanseTestResult> UrlResponseTimes { get; set; }
+		public DbSet<PerformanseResult> UrlResponseTimes { get; set; }
 
 		public WebCrawlerDbContext(DbContextOptions<WebCrawlerDbContext> options)
 		: base(options)

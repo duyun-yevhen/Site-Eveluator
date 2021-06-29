@@ -14,7 +14,6 @@ namespace WebCrawler.WebApplication.Controllers
 		private readonly DbWorker _dbWorker;
 		private readonly SitePefrormanseService _sitePefrormanseService;
 
-
 		public HomeController(DbWorker dbWorker, SitePefrormanseService sitePefrormanseService)
 		{
 			_dbWorker = dbWorker;
@@ -25,6 +24,7 @@ namespace WebCrawler.WebApplication.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var result = await _dbWorker.GetTestsAsync();
+
 			return View(result);
 		}
 
@@ -32,6 +32,7 @@ namespace WebCrawler.WebApplication.Controllers
 		public async Task<int> GetPerformance(Uri url)
 		{
 			var id = await _sitePefrormanseService.GetSitePefrormanseAsync(url);
+
 			return id;
 		}
 

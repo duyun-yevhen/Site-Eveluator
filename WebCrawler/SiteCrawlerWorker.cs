@@ -21,26 +21,28 @@ namespace WebCrawler.Logic
 			_sitemapCrawler = sitemapCrawler;
 		}
 
-		public async Task<IEnumerable<UrlPerformanseTestResult>> DoWorkAsync(Uri url, int querydDelay = 500)
+		public  IEnumerable<PerformanseResult> DoWorkAsync(Uri url, int querydDelay = 500)
 		{
-			IEnumerable<UrlPerformanseTestResult> results = null;
-			await Task.Run(() =>
-			{
-				results = GetAllLinks(url);
-				RequestUrlsForSetResponseTimes(results, querydDelay, 1000);
-			});
+			IEnumerable<PerformanseResult> results = GetAllLinks(url);
+			RequestUrlsForSetResponseTimes(results, querydDelay, 1000);
+
 			return results;
 		}
 
-		private IEnumerable<UrlPerformanseTestResult> GetAllLinks(Uri url)
+		private IEnumerable<PerformanseResult> GetAllLinks(Uri url)
 		{
 			var sitemapLinks = _sitemapCrawler.GetSitesFromSitemap(_sitemapCrawler.GetSitemaps(new Uri("http://" + url.Host)));
 			var pageLinks = _sitepageCrawler.FindPageChildrenLinks(url);
-			var result = new List<UrlPerformanseTestResult>();
+			var result = new List<PerformanseResult>();
 
 			foreach (var link in sitemapLinks.Union(pageLinks))
 			{
-				result.Add(new UrlPerformanseTestResult() { Url = link, InSitemap = sitemapLinks.Contains(link), InSitePage = pageLinks.Contains(link) });
+				result.Add(new PerformanseResult() 
+				{ 
+					Url = link,
+					InSitemap = sitemapLinks.Contains(link), 
+					InSitePage = pageLinks.Contains(link) 
+				});
 			}
 
 			return result;
@@ -50,14 +52,14 @@ namespace WebCrawler.Logic
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		private void RequestUrlsForSetResponseTimes(IEnumerable<UrlPerformanseTestResult> urls, int querydDelay = 500, int timeout = 1000)
+		private void RequestUrlsForSetResponseTimes(IEnumerable<PerformanseResult> urls, int querydDelay = 100, int timeout = 1000)
 		{
 			foreach (var link in urls)
 			{
 				link.ResponseTime = _siteRequest.GetUrlResponseTime(link.Url, timeout);
 				Thread.Sleep(querydDelay);
 			}
-			((List<UrlPerformanseTestResult>)urls).Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
+			urls.ToList().Sort((l, r) => l.ResponseTime.CompareTo(r.ResponseTime));
 		}
 	}
 }
