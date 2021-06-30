@@ -19,7 +19,7 @@ namespace WebCrawler.Tests
 			var dBWorker = new DbWorker(testsRepositoryMock.Object, urlResponseTimeRepositoryMock.Object);
 
 			// act
-			dBWorker.SaveResultAsync(new Uri("http://test.com"), new List<PerformanseResult>() { new PerformanseResult(), new PerformanseResult() });
+			dBWorker.SaveResultAsync(new Uri("http://test.com"), new List<PerformanseResult>() { new PerformanseResult(), new PerformanseResult() }).Wait();
 
 			// assert
 			testsRepositoryMock.Verify(a => a.Add(It.IsAny<PerformanceTest>()), Times.Once());

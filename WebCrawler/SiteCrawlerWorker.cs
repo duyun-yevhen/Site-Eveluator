@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using WebCrawler.Logic;
 using WebCrawler.Model;
 
 namespace WebCrawler.Logic
@@ -21,7 +19,7 @@ namespace WebCrawler.Logic
 			_sitemapCrawler = sitemapCrawler;
 		}
 
-		public  IEnumerable<PerformanseResult> DoWorkAsync(Uri url, int querydDelay = 500)
+		public  IEnumerable<PerformanseResult> DoWork(Uri url, int querydDelay = 500)
 		{
 			IEnumerable<PerformanseResult> results = GetAllLinks(url);
 			RequestUrlsForSetResponseTimes(results, querydDelay, 1000);

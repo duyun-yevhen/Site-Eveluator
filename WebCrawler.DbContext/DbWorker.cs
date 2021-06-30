@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace WebCrawler.Model
 
 			await _testsRepository.SaveChangesAsync();
 
-			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestID = test.Id; return p; })
+			_urlResponseTimeRepository.AddRange(urlResponseTimes.Select(p => { p.TestId = test.Id; return p; })
 									  .OrderBy(s => s.ResponseTime));
 
 			await _urlResponseTimeRepository.SaveChangesAsync();
@@ -33,34 +34,20 @@ namespace WebCrawler.Model
 			return test.Id;
 		}
 
-		public virtual async Task<PerformanceTest> GetResultsByTestIDAsync(int testID)
+		public virtual async Task<PerformanceTest> GetResultsByTestIdAsync(int testId)
 		{
-			PerformanceTest result = null;
-
-			await Task.Run(() =>
-			{
-				result = _testsRepository.Include(p => p.UrlTestResults)
-										 .FirstOrDefault(s => s.Id == testID);
-			});
-
-			return result;
+			return await _testsRepository.Include(s => s.UrlTestResults)
+										 .FirstOrDefaultAsync(s => s.Id == testId);
 		}
 
 		public virtual async Task<IEnumerable<PerformanceTest>> GetTestsAsync()
 		{
-			IEnumerable<PerformanceTest> result = null;
-
-			await Task.Run(() =>
-			{
-				result = _testsRepository.GetAll().ToList();
-			});
-
-			return result;
+			return await _testsRepository.GetAll().ToListAsync();
 		}
 
-		public virtual PerformanceTest GetLastTest()
+		public virtual async Task<PerformanceTest> GetLastTest()
 		{
-			return _testsRepository.Include(p => p.UrlTestResults).OrderBy(s => s.Id).Last();
+			return await _testsRepository.Include(p => p.UrlTestResults).OrderBy(s => s.Id).LastAsync();
 		}
 	}
 }

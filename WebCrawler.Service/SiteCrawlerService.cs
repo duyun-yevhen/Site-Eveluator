@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using WebCrawler.Logic;
 using WebCrawler.Model;
 
-namespace WebCrawler.WebApplication.Services
+namespace WebCrawler.Service
 {
-	public class SitePefrormanseService
+	public class SiteCrawlerService
 	{
 
 		private readonly SiteCrawlerWorker _siteCrawlerWorker;
 		private readonly DbWorker _dbWorker;
 
-		public SitePefrormanseService(DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
+		public SiteCrawlerService(DbWorker dbWorker, SiteCrawlerWorker siteCrawlerWorker)
 		{
 			_dbWorker = dbWorker;
 			_siteCrawlerWorker = siteCrawlerWorker;
@@ -19,7 +19,7 @@ namespace WebCrawler.WebApplication.Services
 
 		public virtual async Task<int> GetSitePefrormanseAsync(Uri url)
 		{
-			var siteResult =  _siteCrawlerWorker.DoWorkAsync(url, 250); 
+			var siteResult =  _siteCrawlerWorker.DoWork(url, 250); 
 			 
 			return await _dbWorker.SaveResultAsync(url, siteResult);
 		}

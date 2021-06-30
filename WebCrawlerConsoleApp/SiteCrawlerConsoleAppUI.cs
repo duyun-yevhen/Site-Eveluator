@@ -31,7 +31,6 @@ namespace WebCrawler.ConsoleApp
 					_crawlerWorker.PrintSitemapResult(result);
 					_crawlerWorker.PrintSitePageResult(result);
 					_crawlerWorker.PrintTotalResult(result);
-
 					_dbWorker.SaveResultAsync(url, result).Wait();
 				}
 				else

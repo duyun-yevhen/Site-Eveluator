@@ -18,7 +18,7 @@ namespace WebCrawler.ConsoleApp
 
 		public IEnumerable<PerformanseResult> DoWork(Uri url)
 		{
-			return _siteCrawlerWorker.DoWorkAsync(url).Result;
+			return _siteCrawlerWorker.DoWork(url);
 		}
 
 		public void PrintSitemapResult(IEnumerable<PerformanseResult> result)

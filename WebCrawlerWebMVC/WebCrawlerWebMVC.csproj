@@ -14,7 +14,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebCrawler.DbContext\WebCrawler.WebCrawlerDbContext.csproj" />
+    <ProjectReference Include="..\WebCrawler.Service\WebCrawler.Service.csproj" />
     <ProjectReference Include="..\WebCrawler\WebCrawler.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
