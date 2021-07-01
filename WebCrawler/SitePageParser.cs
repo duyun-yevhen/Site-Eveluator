@@ -12,7 +12,7 @@ namespace WebCrawler.Logic
 
 			while (true)
 			{
-				pos = site.IndexOf("<a ", ++pos);
+				pos = site.IndexOf("<a", ++pos);
 				if (pos <= 0)
 				{
 					break;
@@ -36,6 +36,10 @@ namespace WebCrawler.Logic
 				if (!pageUrl.IsAbsoluteUri)
 				{
 					pageUrl = new Uri(siteUrl, href);
+				}
+				else if(pageUrl.Host != siteUrl.Host)
+				{
+					continue;
 				}
 
 				if (pageUrl.Scheme == Uri.UriSchemeHttps || pageUrl.Scheme == Uri.UriSchemeHttp)
