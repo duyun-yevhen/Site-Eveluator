@@ -1,24 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using WebCrawler.Model;
+using WebCrawler.Service;
 
 namespace WebCrawler.WebApplication.Controllers
 {
 	public class ResultsController : Controller
 	{
-		private readonly DbWorker _dbWorker;
+		private readonly SiteCrawlerService _siteCrawlerService;
 
-		public ResultsController(DbWorker dbWorker)
+		public ResultsController(SiteCrawlerService siteCrawlerService)
 		{
-			_dbWorker = dbWorker;
+			_siteCrawlerService = siteCrawlerService;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> TestResults(int testID)
 		{
-			var result = await _dbWorker.GetResultsByTestIdAsync(testID);
+			var result = await _siteCrawlerService.GetResultsByTestIdAsync(testID);
 
 			return View(result);
 		} 

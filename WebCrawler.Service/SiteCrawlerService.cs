@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebCrawler.Logic;
 using WebCrawler.Model;
@@ -22,6 +23,20 @@ namespace WebCrawler.Service
 			var siteResult =  _siteCrawlerWorker.DoWork(url, 250); 
 			 
 			return await _dbWorker.SaveResultAsync(url, siteResult);
+		}
+
+		public virtual async Task<PerformanceTest> GetResultsByTestIdAsync(int testID)
+		{
+			var result = await _dbWorker.GetResultsByTestIdAsync(testID);
+
+			return result;
+		}
+
+		public async Task<IEnumerable<PerformanceTest>> GetTestsAsync()
+		{
+			var result = await _dbWorker.GetTestsAsync();
+
+			return result;
 		}
 	}
 }

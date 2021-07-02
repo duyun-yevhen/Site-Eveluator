@@ -1,26 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using WebCrawler.Model;
 using WebCrawler.Service;
 
 namespace WebCrawler.WebApplication.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly DbWorker _dbWorker;
 		private readonly SiteCrawlerService _sitePefrormanseService;
 
-		public HomeController(DbWorker dbWorker, SiteCrawlerService sitePefrormanseService)
+		public HomeController( SiteCrawlerService sitePefrormanseService)
 		{
-			_dbWorker = dbWorker;
 			_sitePefrormanseService = sitePefrormanseService;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			var result = await _dbWorker.GetTestsAsync();
+			var result = await _sitePefrormanseService.GetTestsAsync();
 
 			return View(result);
 		}
