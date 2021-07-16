@@ -9,19 +9,18 @@ using WebCrawler.Service;
 namespace WebCrawlerWebAPI.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]")]
-	public class HomeController : Controller
+	[Route("api/[controller]/[action]")]
+	public class CrawlerController : Controller
 	{
 		private readonly SiteCrawlerService _siteCrawlerService;
 
-		public HomeController( SiteCrawlerService siteCrawlerService)
+		public CrawlerController( SiteCrawlerService siteCrawlerService)
 		{
 			_siteCrawlerService = siteCrawlerService;
 		}
 
 		[HttpGet]
-		[ApiExplorerSettings(IgnoreApi = true)]
-		public async Task<PerformanceTest> TestResults(int testID)
+		public async Task<PerformanceTest> GetTestResultById(int testID)
 		{
 			var result = await _siteCrawlerService.GetResultsByTestIdAsync(testID);
 			result.UrlTestResults.AsParallel().ForAll(s => s.Test = null);
@@ -30,7 +29,7 @@ namespace WebCrawlerWebAPI.Controllers
 
 
 		[HttpGet]
-		public async Task<IEnumerable<PerformanceTest>> Index()
+		public async Task<IEnumerable<PerformanceTest>> GetAllTestsResult()
 		{
 			return await _siteCrawlerService.GetTestsAsync();
 		}
