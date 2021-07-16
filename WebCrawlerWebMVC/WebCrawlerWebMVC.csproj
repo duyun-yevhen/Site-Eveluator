@@ -4,9 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Win32Resource></Win32Resource>
     <RootNamespace>WebCrawler.WebApplication</RootNamespace>
+    <UserSecretsId>ebaf4d21-7ba7-4852-aa81-3c2880b65ec3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NonFactors.Grid.Mvc6" Version="6.2.4" />
     <PackageReference Include="UkadGroup.EfRepository" Version="1.0.1" />
     <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
