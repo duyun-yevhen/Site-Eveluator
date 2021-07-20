@@ -11,12 +11,15 @@ export default new Router({
             name: 'AllTests',
             component: AllTests
         },
-
         {
-            path: '/test/:id',
+            path: '/test/',
             name: 'TestResult',
-            component: TestResult,
-            props: true
+            component: TestResult
+        },
+        {
+            path: '/test/:testId',
+            name: 'TestResult',
+            component: TestResult
         }
     ],
     mode: 'history'
