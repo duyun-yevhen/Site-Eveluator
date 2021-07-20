@@ -7,12 +7,6 @@
         <input size="60" v-model.lazy="url" type="url" required name="url" />
         <input type="submit" value="Test" />
       </form>
-      <br />
-      <form @submit.prevent="$router.push({ path: '/test/' + testId })">
-        <p>Get Test Result by Id:</p>
-        <input type="number" v-model.lazy="testId" required name="testId" />
-        <input type="submit" value="View Reults" />
-      </form>
     </div>
     <test-table :testResults="testResults" />
   </div>
@@ -38,7 +32,7 @@ export default {
       if (url) {
         this.$http
           .get(
-            'https://webcrawler.me.com/api/Crawler/GetPerformance?url=' + url
+            'https://webcrawler.me.com/api/CrawlerTests/NewTest/' + url
           )
           .then(response => {
             console.log(response.data)
@@ -48,7 +42,7 @@ export default {
     },
     getData () {
       this.$http
-        .get('https://webcrawler.me.com/api/Crawler/GetAllTestsResult')
+        .get('https://webcrawler.me.com/api/CrawlerTests/')
         .then(response => (this.testResults = response.data.reverse()))
     }
   }

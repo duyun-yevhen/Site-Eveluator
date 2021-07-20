@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Model;
 using WebCrawler.Service;
+using WebCrawlerWebAPI.Models;
 
 namespace WebCrawlerWebAPI.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]/[action]")]
+	[Route("api/[controller]")]
 	public class CrawlerController : Controller
 	{
 		private readonly SiteCrawlerService _siteCrawlerService;
@@ -19,27 +20,27 @@ namespace WebCrawlerWebAPI.Controllers
 			_siteCrawlerService = siteCrawlerService;
 		}
 
-		[HttpGet]
-		public async Task<PerformanceTest> GetTestResultById(int testID)
+		[HttpGet("{id}")]
+		public async Task<TestsResult> GetTestResultById(int id)
 		{
-			var result = await _siteCrawlerService.GetResultsByTestIdAsync(testID);
-			result.UrlTestResults.AsParallel().ForAll(s=>s.Test=null);
-			return result;
+			var maper = new Mappers.TestsMapper();
+			var result = await _siteCrawlerService.GetResultsByTestIdAsync(id);
+			return await Task.Run(() => maper.Map(result));
 		}
 
 
 		[HttpGet]
-		public async Task<IEnumerable<PerformanceTest>> GetAllTestsResult()
+		public async Task<IEnumerable<TestsResult>> GetAllTestsResult()
 		{
-			return await _siteCrawlerService.GetTestsAsync();
+			var maper = new Mappers.TestsMapper();
+			var result = await _siteCrawlerService.GetTestsAsync();
+			return await Task.Run(() => maper.Map(result));
 		}
 
-		[HttpGet]
+		[HttpGet("NewTest/{url}")]
 		public async Task<int> GetPerformance(Uri url)
 		{
-			var id = await _siteCrawlerService.GetSitePefrormanseAsync(url);
-
-			return id;
+			return await _siteCrawlerService.GetSitePefrormanseAsync(url);
 		}
 		
 		

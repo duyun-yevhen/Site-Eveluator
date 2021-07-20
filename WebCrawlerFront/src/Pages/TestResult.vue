@@ -2,11 +2,6 @@
   <div class="TestResult">
     <div class="text-center">
       <h1 class="display-4">Site Performance Result</h1>
-      <form @submit.prevent="getData">
-        <p>Get Test Result by Id:</p>
-        <input type="number" v-model.lazy="testId" required name="testId" />
-        <input type="submit" value="View Reults" />
-      </form>
       <br />
       <form @submit.prevent="$router.push('/')">
         <input type="submit" value="Back to Tests" />
@@ -25,10 +20,7 @@ export default {
     getData () {
       if (this.testId > 0) {
         this.$http
-          .get(
-            'https://webcrawler.me.com/api/Crawler/GetTestResultById?testID=' +
-              this.testId
-          )
+          .get('https://webcrawler.me.com/api/CrawlerTests/' + this.testId)
           .then(response => {
             this.testData = response.data
           })

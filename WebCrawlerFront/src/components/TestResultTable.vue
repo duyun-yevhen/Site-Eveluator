@@ -8,7 +8,6 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Id</th>
             <th scope="col">URL</th>
             <th scope="col">inSitemap</th>
             <th scope="col">inSitePage</th>
@@ -16,9 +15,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item of testData.urlTestResults" :key="item.id">
-            <th scope="row">{{ item.id }}</th>
-            <td>{{ item.url }}</td>
+          <tr v-for="item of SortedTime" :key="item.id">
+            <th scope="row">{{ item.url }}</th>
             <td>{{ item.inSitemap }}</td>
             <td>{{ item.inSitePage }}</td>
             <td>{{ item.responseTime }}</td>
@@ -31,24 +29,32 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'TestResultTable',
   props: {
     testData: {
       id: Number,
-      date: Number,
+      date: Date,
       siteUrl: URL,
       urlTestResults: []
     }
   },
-  metods: {
-    getSitemapOnly () {
-      return null
+  computed: {
+    SortedTime () {
+      return this.testData.urlTestResults.sort((a,b) => {
+        return a.responseTime - b.responseTime
+      })
     },
-    getSitePageOnly () {
-      return null
+    SitemapOnly () {
+      return this.testData.urlTestResults.filter(url => {
+        return url.inSitemap&&!url.inSitePage
+      })
+    },
+    SitePageOnly () {
+     return this.testData.urlTestResults.filter(url => {
+        return !url.inSitemap&&url.inSitePage
+      })
     }
   }
 }
