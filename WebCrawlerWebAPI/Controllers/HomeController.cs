@@ -23,7 +23,7 @@ namespace WebCrawlerWebAPI.Controllers
 		public async Task<PerformanceTest> GetTestResultById(int testID)
 		{
 			var result = await _siteCrawlerService.GetResultsByTestIdAsync(testID);
-			result.UrlTestResults.AsParallel().ForAll(s => s.Test = null);
+			result.UrlTestResults.AsParallel().ForAll(s=>s.Test=null);
 			return result;
 		}
 
@@ -34,7 +34,7 @@ namespace WebCrawlerWebAPI.Controllers
 			return await _siteCrawlerService.GetTestsAsync();
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<int> GetPerformance(Uri url)
 		{
 			var id = await _siteCrawlerService.GetSitePefrormanseAsync(url);
