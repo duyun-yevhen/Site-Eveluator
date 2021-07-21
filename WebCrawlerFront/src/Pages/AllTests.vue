@@ -18,8 +18,7 @@
         </div>
       </form>
     </div>
-    
-    <test-table :testResults="testResults" />
+    <page-table :tableData="teatsData" :raws="50"></page-table>
   </div>
 </template>
 
@@ -43,10 +42,23 @@ export default {
   data () {
     return {
       url: '',
-      testId: 0,
       testResults: [],
       testsResource: null,
       newTest: null
+    }
+  },
+  computed: {
+    teatsData () {
+      return {
+        colomnHeaders: ['URL', 'Date'],
+        items: this.testResults
+          .map(value => {
+            return {
+              siteUrl: value.siteUrl,
+              date: value.date
+            }
+          })
+      }
     }
   },
   methods: {
@@ -56,7 +68,7 @@ export default {
         console.log('ERROR')
       } else {
         console.log(this.url)
-        this.newTest.save({url:this.url}).then(response => {
+        this.newTest.save({ url: this.url }).then(response => {
           console.log(response.data)
           this.getData()
         })

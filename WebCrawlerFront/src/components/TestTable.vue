@@ -26,9 +26,7 @@
 </template>
 
 <script>
-import PageTable from './PageTable.vue'
 export default {
-  components: { PageTable },
   props: {
     testResults: []
   },
