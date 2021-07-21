@@ -13,25 +13,27 @@
 <script>
 export default {
   name: 'TestResult',
-  beforeMount () {
-    this.getData()
+   data () {
+    return {
+      resource: null,
+      testId: this.$route.params['testId'],
+      testData: null
+    }
+  },
+  created () {
+     this.resource = this.$resource('CrawlerTests{/id}')
+     this.getData()
   },
   methods: {
     getData () {
       if (this.testId > 0) {
-        this.$http
-          .get('https://webcrawler.me.com/api/CrawlerTests/' + this.testId)
+        this.resource
+          .get({id:this.testId})
           .then(response => {
             this.testData = response.data
           })
           .catch(() => (this.testData = null))
       }
-    }
-  },
-  data () {
-    return {
-      testId: this.$route.params['testId'],
-      testData: null
     }
   }
 }

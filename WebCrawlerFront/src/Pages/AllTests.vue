@@ -15,7 +15,9 @@
 <script>
 export default {
   name: 'AllTests',
-  beforeMount () {
+  created () {
+    this.testsResource = this.$resource('CrawlerTests')
+    this.newTest = this.$resource('CrawlerTests/NewTest')
     this.getData()
   },
 
@@ -23,26 +25,25 @@ export default {
     return {
       url: '',
       testId: 0,
-      testResults: []
+      testResults: [],
+      testsResource: null,
+      newTest: null
     }
   },
   methods: {
     startTest () {
       let url = new URL(this.url)
-      if (url) {
-        this.$http
-          .get(
-            'https://webcrawler.me.com/api/CrawlerTests/NewTest/' + url
-          )
-          .then(response => {
-            console.log(response.data)
-            this.getData()
-          })
+      console.log(url)
+      if (url && (url.protocol == 'http'|| url.protocol =='https') ) {
+        this.newTest.save(url).then(response => {
+          console.log(response.data)
+          this.getData()
+        })
       }
     },
     getData () {
-      this.$http
-        .get('https://webcrawler.me.com/api/CrawlerTests/')
+      this.testsResource
+        .get()
         .then(response => (this.testResults = response.data.reverse()))
     }
   }
