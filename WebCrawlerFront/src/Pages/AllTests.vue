@@ -18,13 +18,16 @@
         </div>
       </form>
     </div>
+    
     <test-table :testResults="testResults" />
   </div>
 </template>
 
 <script>
 import { required, url } from 'vuelidate/lib/validators'
+import PageTable from '../components/PageTable.vue'
 export default {
+  components: { PageTable },
   name: 'AllTests',
   created () {
     this.testsResource = this.$resource('CrawlerTests')

@@ -10,14 +10,14 @@
       </thead>
       <tbody>
         <tr v-for="item in testResults" :key="item.id">
-          <td scope="row">{{ item.siteUrl }}</td>
+          <td>{{ item.siteUrl }}</td>
           <td>{{ item.date }}</td>
           <td>
             <router-link :to="{ path: '/test/' + item.id }"
-              ><button type="button" class="btn btn-primary">
+              ><button type="button" class="btn btn-primary text-nowrap">
                 Go to Test Results
-              </button></router-link
-            >
+              </button>
+            </router-link>
           </td>
         </tr>
       </tbody>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
+import PageTable from './PageTable.vue'
 export default {
+  components: { PageTable },
   props: {
     testResults: []
   },
