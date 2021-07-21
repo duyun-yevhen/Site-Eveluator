@@ -3,11 +3,13 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <td scope="col" v-for="i of tableData.colomnHeaders" :key="i">{{ i }}</td>
+          <td scope="col" v-for="i of tableData.colomnHeaders" :key="i">
+            {{ i }}
+          </td>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item of page" :key="item.id">
+        <tr v-for="(item, index) of page" :key="index" @click="tableClick(index)">
           <td v-for="i in item" :key="i">{{ i }}</td>
         </tr>
       </tbody>
@@ -42,6 +44,10 @@ export default {
     }
   },
   methods: {
+    tableClick (index) {
+      this.$emit('tableClicked',index + this.currentPage*this.raws)
+    },
+
     previousPage () {
       if (this.currentPage > 0) this.currentPage--
     },

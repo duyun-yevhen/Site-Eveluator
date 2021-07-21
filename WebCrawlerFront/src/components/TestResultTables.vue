@@ -4,9 +4,24 @@
       <br />Performanse <br />Test ID: {{ testData.id }} <br />Date:
       {{ testData.date }} <br />URL: {{ testData.siteUrl }} <br />Total links:
       {{ testData.urlTestResults ? testData.urlTestResults.length : 0 }}
-      <page-table :tableData="SitemapOnly"></page-table>
-      <page-table :tableData="SitePageOnly"></page-table>
-      <page-table :tableData="SortedTime"></page-table>
+      <div v-if="SitemapOnly.items.length > 0" class="container p-5">
+        <div class="display-4">
+          Sitemap Only Sites: {{ SitemapOnly.items.length }}
+        </div>
+        <page-table :tableData="SitemapOnly"></page-table>
+      </div>
+      <div v-if="SitePageOnly.items.length > 0" class="container p-5">
+        <div class="display-4">
+          Sitemap Only Sites: {{ SitePageOnly.items.length }}
+        </div>
+        <page-table :tableData="SitePageOnly"></page-table>
+      </div>
+      <div class="container p-5">
+        <div class="display-4">
+          Total Results:
+        </div>
+        <page-table :tableData="SortedTime"></page-table>
+      </div>
     </div>
     <div class="" v-else>
       Test not found
@@ -45,25 +60,25 @@ export default {
     SitemapOnly () {
       return {
         colomnHeaders: ['URL'],
-        items: this.SortedTime.items.filter(
-          value => !value.inSitemap && value.inSitePage
-        ).map(value => {
-          return {
-            url: value.url
-          }
-        })
+        items: this.SortedTime.items
+          .filter(value => !value.inSitemap && value.inSitePage)
+          .map(value => {
+            return {
+              url: value.url
+            }
+          })
       }
     },
     SitePageOnly () {
       return {
         colomnHeaders: ['URL'],
-        items: this.SortedTime.items.filter(
-          value => value.inSitemap && !value.inSitePage
-        ).map(value => {
-          return {
-            url: value.url
-          }
-        })
+        items: this.SortedTime.items
+          .filter(value => value.inSitemap && !value.inSitePage)
+          .map(value => {
+            return {
+              url: value.url
+            }
+          })
       }
     }
   }

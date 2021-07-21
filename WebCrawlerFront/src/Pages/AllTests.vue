@@ -18,15 +18,17 @@
         </div>
       </form>
     </div>
-    <page-table :tableData="teatsData" :raws="50"></page-table>
+    <page-table
+      :tableData="testsData"
+      :raws="50"
+      @tableClicked="testSelected"
+    ></page-table>
   </div>
 </template>
 
 <script>
 import { required, url } from 'vuelidate/lib/validators'
-import PageTable from '../components/PageTable.vue'
 export default {
-  components: { PageTable },
   name: 'AllTests',
   created () {
     this.testsResource = this.$resource('CrawlerTests')
@@ -48,20 +50,22 @@ export default {
     }
   },
   computed: {
-    teatsData () {
+    testsData () {
       return {
         colomnHeaders: ['URL', 'Date'],
-        items: this.testResults
-          .map(value => {
-            return {
-              siteUrl: value.siteUrl,
-              date: value.date
-            }
-          })
+        items: this.testResults.map(value => {
+          return {
+            siteUrl: value.siteUrl,
+            date: value.date
+          }
+        })
       }
     }
   },
   methods: {
+     testSelected (value) {
+      this.$router.push({ path: '/test/' + this.testResults[value].id })
+    },
     startTest () {
       this.$v.$touch()
       if (this.$v.$invalid) {

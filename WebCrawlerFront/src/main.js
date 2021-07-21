@@ -6,14 +6,12 @@ import router from './router'
 import Vuelidate from 'vuelidate'
 
 import App from './App'
-import TestTable from './components/TestTable'
 import TestResultTables from './components/TestResultTables'
 import PageTable from './components/PageTable'
 
 Vue.use(VueResource)
 Vue.use(Vuelidate)
 Vue.http.options.root = 'https://webcrawler.me.com/api/Crawler'
-Vue.component('TestTable', TestTable)
 Vue.component('TestResultTable', TestResultTables)
 Vue.component('PageTable', PageTable)
 Vue.config.productionTip = false
