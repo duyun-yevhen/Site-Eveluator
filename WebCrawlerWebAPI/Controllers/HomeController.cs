@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebCrawler.Model;
 using WebCrawler.Service;
-using WebCrawlerWebAPI.Models;
 
 namespace WebCrawlerWebAPI.Controllers
 {
@@ -15,7 +15,7 @@ namespace WebCrawlerWebAPI.Controllers
 	{
 		private readonly SiteCrawlerService _siteCrawlerService;
 
-		public CrawlerController( SiteCrawlerService siteCrawlerService)
+		public CrawlerController(SiteCrawlerService siteCrawlerService)
 		{
 			_siteCrawlerService = siteCrawlerService;
 		}
@@ -55,9 +55,18 @@ namespace WebCrawlerWebAPI.Controllers
 		}
 
 		[HttpPost("CrawlerTests/NewTest")]
-		public async Task<int> GetPerformance([FromBody] Uri url)
+		public async Task<int> GetPerformance([FromBody] JsonDocument url)
 		{
-			return await _siteCrawlerService.GetSitePefrormanseAsync(url);
+
+			if (Uri.TryCreate(url.RootElement.GetProperty("url").GetString(), UriKind.Absolute, out Uri _url))
+			{
+				return await _siteCrawlerService.GetSitePefrormanseAsync(_url);
+			}
+
+			else
+			{
+				return -1;
+			}
 		}
 	}
 }
