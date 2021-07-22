@@ -55,12 +55,12 @@ namespace WebCrawlerWebAPI.Controllers
 		}
 
 		[HttpPost("CrawlerTests/NewTest")]
-		public async Task<int> GetPerformance([FromBody] JsonDocument url)
+		public async Task<int> GetPerformance([FromBody] Uri url)
 		{
 
-			if (Uri.TryCreate(url.RootElement.GetProperty("url").GetString(), UriKind.Absolute, out Uri _url))
+			if (url.IsAbsoluteUri)
 			{
-				return await _siteCrawlerService.GetSitePefrormanseAsync(_url);
+				return await _siteCrawlerService.GetSitePefrormanseAsync(url);
 			}
 
 			else

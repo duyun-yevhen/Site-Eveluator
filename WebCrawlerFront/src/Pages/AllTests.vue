@@ -63,8 +63,10 @@ export default {
     }
   },
   methods: {
-     testSelected (value) {
-      this.$router.push({ path: '/test/' + this.testResults[value].id })
+    testSelected (value) {
+      if (document.getSelection().toString().length == 0) {
+        this.$router.push({ path: '/test/' + this.testResults[value].id })
+      }
     },
     startTest () {
       this.$v.$touch()
@@ -72,7 +74,7 @@ export default {
         console.log('ERROR')
       } else {
         console.log(this.url)
-        this.newTest.save({ url: this.url }).then(response => {
+        this.newTest.save(new URL(this.url)).then(response => {
           console.log(response.data)
           this.getData()
         })
