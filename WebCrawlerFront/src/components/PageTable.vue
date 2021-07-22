@@ -14,7 +14,8 @@
         </tr>
       </tbody>
     </table>
-    <button
+  <div v-if="maxPage>1">
+     <button
       class="btn btn-primary"
       :class="{ disabled: currentPage < 1 }"
       v-on:click.prevent="previousPage"
@@ -28,6 +29,7 @@
     >
       Next Page
     </button>
+  </div>
   </div>
 </template>
 

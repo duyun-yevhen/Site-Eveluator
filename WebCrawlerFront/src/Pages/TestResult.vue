@@ -4,7 +4,7 @@
       <h1 class="display-4">Site Performance Result</h1>
       <br />
       <form @submit.prevent="$router.push('/')">
-        <input type="submit" value="Back to Tests" />
+        <input class="btn btn-primary" type="submit" value="Back to Tests" />
       </form>
     </div>
     <test-result-table v-if="testId > 0" :testData="testData" />

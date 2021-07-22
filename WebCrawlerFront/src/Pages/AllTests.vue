@@ -13,8 +13,9 @@
             @blur="$v.url.$touch()"
             name="url"
           />
-          <input type="submit" value="Test" />
-          <div class="invalid-feedback"></div>
+          <input class="btn btn-primary" :class="{ 'disabled': $v.url.$error }" type="submit" value="Test" />
+          <div class="invalid-feedback" v-if="!$v.url.url">Wrong URL format</div>
+            <div class="invalid-feedback" v-if="!$v.url.required">URL is required</div>
         </div>
       </form>
     </div>

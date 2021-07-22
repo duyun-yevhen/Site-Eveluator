@@ -41,7 +41,6 @@ namespace WebCrawlerWebAPI.Controllers
 		[HttpPost("CrawlerTests/NewTest")]
 		public async Task<int> GetPerformance([FromBody] Uri url)
 		{
-
 			if (url.IsAbsoluteUri)
 			{
 				return await _siteCrawlerService.GetSitePefrormanseAsync(url);
