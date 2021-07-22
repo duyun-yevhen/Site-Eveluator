@@ -16,12 +16,12 @@ namespace WebCrawler.ConsoleApp
 			_siteCrawlerWorker = siteCrawlerWorker;
 		}
 
-		public IEnumerable<PerformanseResult> DoWork(Uri url)
+		public IEnumerable<PerformanceResult> DoWork(Uri url)
 		{
 			return _siteCrawlerWorker.DoWork(url);
 		}
 
-		public void PrintSitemapResult(IEnumerable<PerformanseResult> result)
+		public void PrintSitemapResult(IEnumerable<PerformanceResult> result)
 		{
 			Console.WriteLine("Urls FOUNDED IN SITEMAP but not founded after crawling a web site:");
 
@@ -32,7 +32,7 @@ namespace WebCrawler.ConsoleApp
 			}
 		}
 
-		public void PrintSitePageResult(IEnumerable<PerformanseResult> result)
+		public void PrintSitePageResult(IEnumerable<PerformanceResult> result)
 		{
 			Console.WriteLine("\r\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml:");
 			var links = result.Where(s => !s.InSitemap && s.InSitePage).ToList();
@@ -42,7 +42,7 @@ namespace WebCrawler.ConsoleApp
 			}
 		}
 
-		public void PrintTotalResult(IEnumerable<PerformanseResult> result)
+		public void PrintTotalResult(IEnumerable<PerformanceResult> result)
 		{
 			var links = result.ToList();
 			Console.WriteLine("\r\nTiming:");

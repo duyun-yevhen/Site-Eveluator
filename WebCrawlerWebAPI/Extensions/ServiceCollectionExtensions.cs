@@ -2,6 +2,7 @@
 using WebCrawler.Logic;
 using WebCrawler.Model;
 using WebCrawler.Service;
+using WebCrawlerWebAPI.Mappers;
 
 namespace WebCrawlerWebAPI
 {
@@ -18,6 +19,7 @@ namespace WebCrawlerWebAPI
 			services.AddScoped<SitepageCrawler>();
 			services.AddScoped<SitemapCrawler>();
 			services.AddScoped<SiteCrawlerService>();
+			services.AddScoped<PerformanseResultMapper>();
 		}
     }
 }

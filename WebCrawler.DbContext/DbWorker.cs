@@ -10,15 +10,15 @@ namespace WebCrawler.Model
 	public class DbWorker
 	{
 		private readonly IRepository<PerformanceTest> _testsRepository;
-		private readonly IRepository<PerformanseResult> _urlResponseTimeRepository;
+		private readonly IRepository<PerformanceResult> _urlResponseTimeRepository;
 
-		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<PerformanseResult> urlResponseTimeRepository)
+		public DbWorker(IRepository<PerformanceTest> testsRepository, IRepository<PerformanceResult> urlResponseTimeRepository)
 		{
 			_testsRepository = testsRepository;
 			_urlResponseTimeRepository = urlResponseTimeRepository;
 		}
 
-		public virtual async Task<int> SaveResultAsync(Uri siteUrl, IEnumerable<PerformanseResult> urlResponseTimes)
+		public virtual async Task<int> SaveResultAsync(Uri siteUrl, IEnumerable<PerformanceResult> urlResponseTimes)
 		{
 			var test = new PerformanceTest() { SiteUrl = siteUrl };
 

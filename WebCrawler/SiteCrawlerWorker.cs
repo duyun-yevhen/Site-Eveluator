@@ -19,23 +19,23 @@ namespace WebCrawler.Logic
 			_sitemapCrawler = sitemapCrawler;
 		}
 
-		public  IEnumerable<PerformanseResult> DoWork(Uri url, int querydDelay = 500)
+		public  IEnumerable<PerformanceResult> DoWork(Uri url, int querydDelay = 500)
 		{
-			IEnumerable<PerformanseResult> results = GetAllLinks(url);
+			IEnumerable<PerformanceResult> results = GetAllLinks(url);
 			RequestUrlsForSetResponseTimes(results, querydDelay, 1000);
 
 			return results;
 		}
 
-		private IEnumerable<PerformanseResult> GetAllLinks(Uri url)
+		private IEnumerable<PerformanceResult> GetAllLinks(Uri url)
 		{
 			var sitemapLinks = _sitemapCrawler.GetSitesFromSitemap(_sitemapCrawler.GetSitemaps(new Uri("http://" + url.Host)));
 			var pageLinks = _sitepageCrawler.FindPageChildrenLinks(url);
-			var result = new List<PerformanseResult>();
+			var result = new List<PerformanceResult>();
 
 			foreach (var link in sitemapLinks.Union(pageLinks))
 			{
-				result.Add(new PerformanseResult() 
+				result.Add(new PerformanceResult() 
 				{ 
 					Url = link,
 					InSitemap = sitemapLinks.Contains(link), 
@@ -50,7 +50,7 @@ namespace WebCrawler.Logic
 		/// </summary>
 		/// <param name="querydDelay">Delay between requests</param>
 		/// <param name="timeout">Maximum response timeout</param>
-		private void RequestUrlsForSetResponseTimes(IEnumerable<PerformanseResult> urls, int querydDelay = 100, int timeout = 1000)
+		private void RequestUrlsForSetResponseTimes(IEnumerable<PerformanceResult> urls, int querydDelay = 100, int timeout = 1000)
 		{
 			foreach (var link in urls)
 			{
