@@ -8,6 +8,6 @@ namespace WebCrawlerWebAPI.Models
 		public int Id { get; set; }
 		public Uri SiteUrl { get; set; }
 		public DateTime Date { get; set; }
-		public ICollection<PerformanceResult> UrlTestResults { get; set; }
+		public IEnumerable<PerformanceResult> UrlTestResults { get; set; }
 	}
 }

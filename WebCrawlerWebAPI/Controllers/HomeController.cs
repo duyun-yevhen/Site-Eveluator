@@ -12,33 +12,36 @@ namespace WebCrawlerWebAPI.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class CrawlerController : Controller
+	public class CrawlerTestController : Controller
 	{
 		private readonly SiteCrawlerService _siteCrawlerService;
-		private readonly PerformanseResultMapper _performanseResultMapper;
+		private readonly IMapper _mapper;
 
-		public CrawlerController(SiteCrawlerService siteCrawlerService, PerformanseResultMapper performanseResultMapper)
+
+		public CrawlerTestController(SiteCrawlerService siteCrawlerService, IMapper mapper)
 		{
 			_siteCrawlerService = siteCrawlerService;
-			_performanseResultMapper = performanseResultMapper;
+			_mapper = mapper;
 		}
 
-		[HttpGet("CrawlerTests/{id}")]
+		[HttpGet("{id}")]
 		public async Task<PerformanceTest> GetTestResultById(int id)
 		{
 			var result = await _siteCrawlerService.GetResultsByTestIdAsync(id);
-			return _performanseResultMapper.Map(result);
+
+			return _mapper.Map<PerformanceTest>(result);
 		}
 
 
-		[HttpGet("CrawlerTests")]
+		[HttpGet]
 		public async Task<IEnumerable<PerformanceTest>> GetAllTestsResult()
 		{
 			var result = await _siteCrawlerService.GetTestsAsync();
-			return _performanseResultMapper.Map(result);
+
+			return _mapper.Map<IEnumerable<PerformanceTest>>(result);
 		}
 
-		[HttpPost("CrawlerTests/NewTest")]
+		[HttpPost]
 		public async Task<int> GetPerformance([FromBody] Uri url)
 		{
 			if (url.IsAbsoluteUri)

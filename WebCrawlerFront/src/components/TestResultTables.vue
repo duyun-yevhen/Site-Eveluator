@@ -10,22 +10,22 @@
         </div>
         <page-table :tableData="SortedTime"></page-table>
       </div>
+
+      <div v-if="SitemapOnly.items.length > 0" class="container p-5">
+        <div class="display-4">
+          Sitemap Only Sites: {{ SitemapOnly.items.length }}
+        </div>
+        <page-table :tableData="SitemapOnly"></page-table>
+      </div>
+
+      <div v-if="SitePageOnly.items.length > 0" class="container p-5">
+        <div class="display-4">
+          Sitemap Only Sites: {{ SitePageOnly.items.length }}
+        </div>
+        <page-table :tableData="SitePageOnly"></page-table>
+      </div>
     </div>
 
-    <div v-if="SitemapOnly.items.length > 0" class="container p-5">
-      <div class="display-4">
-        Sitemap Only Sites: {{ SitemapOnly.items.length }}
-      </div>
-      <page-table :tableData="SitemapOnly"></page-table>
-    </div>
-
-    <div v-if="SitePageOnly.items.length > 0" class="container p-5">
-      <div class="display-4">
-        Sitemap Only Sites: {{ SitePageOnly.items.length }}
-      </div>
-      <page-table :tableData="SitePageOnly"></page-table>
-    </div>
-    
     <div class="" v-else>
       Test not found
     </div>
@@ -42,10 +42,21 @@ export default {
       urlTestResults: []
     }
   },
+  created () {
+    let options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    }
+    this.testData.date = new Intl.DateTimeFormat('ru-RU',options).format(new Date(this.testData.date))
+  },
   computed: {
     SortedTime () {
       return {
-        colomnHeaders: ['URL', 'inSitemap', 'inSitePage', 'Response Time'],
+        colomnHeaders: ['URL', 'inSitemap', 'inSitePage', 'Response Time(ms)'],
         items: this.testData.urlTestResults
           .sort((a, b) => {
             return a.responseTime - b.responseTime

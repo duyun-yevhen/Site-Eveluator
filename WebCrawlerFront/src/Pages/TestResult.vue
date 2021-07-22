@@ -21,7 +21,7 @@ export default {
     }
   },
   created () {
-     this.resource = this.$resource('CrawlerTests{/id}')
+     this.resource = this.$resource('{id}')
      this.getData()
   },
   methods: {

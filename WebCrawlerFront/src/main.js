@@ -11,7 +11,7 @@ import PageTable from './components/PageTable'
 
 Vue.use(VueResource)
 Vue.use(Vuelidate)
-Vue.http.options.root = 'https://webcrawler.me.com/api/Crawler'
+Vue.http.options.root = 'https://webcrawler.me.com/api/CrawlerTest/'
 Vue.component('TestResultTable', TestResultTables)
 Vue.component('PageTable', PageTable)
 Vue.config.productionTip = false

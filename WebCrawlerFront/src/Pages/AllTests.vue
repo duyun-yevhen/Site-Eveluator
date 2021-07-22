@@ -13,9 +13,18 @@
             @blur="$v.url.$touch()"
             name="url"
           />
-          <input class="btn btn-primary" :class="{ 'disabled': $v.url.$error }" type="submit" value="Test" />
-          <div class="invalid-feedback" v-if="!$v.url.url">Wrong URL format</div>
-            <div class="invalid-feedback" v-if="!$v.url.required">URL is required</div>
+          <input
+            class="btn btn-primary"
+            :class="{ disabled: $v.url.$error }"
+            type="submit"
+            value="Test"
+          />
+          <div class="invalid-feedback" v-if="!$v.url.url">
+            Wrong URL format
+          </div>
+          <div class="invalid-feedback" v-if="!$v.url.required">
+            URL is required
+          </div>
         </div>
       </form>
     </div>
@@ -32,8 +41,8 @@ import { required, url } from 'vuelidate/lib/validators'
 export default {
   name: 'AllTests',
   created () {
-    this.testsResource = this.$resource('CrawlerTests')
-    this.newTest = this.$resource('CrawlerTests/NewTest')
+    this.testsResource = this.$resource()
+    this.newTest = this.$resource()
     this.getData()
   },
   validations: {
@@ -52,12 +61,20 @@ export default {
   },
   computed: {
     testsData () {
+      let options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      }
       return {
         colomnHeaders: ['URL', 'Date'],
         items: this.testResults.map(value => {
           return {
             siteUrl: value.siteUrl,
-            date: value.date
+            date: new Intl.DateTimeFormat('ru-RU', options).format(new Date(value.date))
           }
         })
       }

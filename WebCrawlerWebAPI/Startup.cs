@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic;
 using WebCrawler.Model;
+using AutoMapper;
+using WebCrawlerWebAPI.Mappers;
 
 namespace WebCrawlerWebAPI
 {
@@ -35,6 +37,7 @@ namespace WebCrawlerWebAPI
 			services.AddEfRepository<WebCrawlerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SiteCrawlerDB")));
 			services.AddScoped<SiteCrawlerWorker>();
 			services.AddWebCrawlerLogicServices();
+			services.AddAutoMapper(typeof (PerformanseResultMapperProfile));
 			services.AddCors(options =>
 			{
 				options.AddPolicy(name: MyAllowSpecificOrigins,
