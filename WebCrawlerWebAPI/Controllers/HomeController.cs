@@ -34,11 +34,11 @@ namespace WebCrawlerWebAPI.Controllers
 
 
 		[HttpGet]
-		public async Task<IEnumerable<PerformanceTest>> GetAllTestsResult()
+		public async Task<IEnumerable<PerformanceTestInfo>> GetAllTestsInfo()
 		{
 			var result = await _siteCrawlerService.GetTestsAsync();
 
-			return _mapper.Map<IEnumerable<PerformanceTest>>(result);
+			return _mapper.Map<IEnumerable<PerformanceTestInfo>>(result);
 		}
 
 		[HttpPost]

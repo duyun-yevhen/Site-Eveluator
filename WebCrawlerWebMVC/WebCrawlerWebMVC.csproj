@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Win32Resource></Win32Resource>
     <RootNamespace>WebCrawler.WebApplication</RootNamespace>
     <UserSecretsId>ebaf4d21-7ba7-4852-aa81-3c2880b65ec3</UserSecretsId>

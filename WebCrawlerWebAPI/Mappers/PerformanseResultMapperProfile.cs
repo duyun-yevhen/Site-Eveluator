@@ -10,6 +10,7 @@ namespace WebCrawlerWebAPI.Mappers
 		{
 			CreateMap<WebCrawler.Model.PerformanceTest, PerformanceTest>();
 			CreateMap<WebCrawler.Model.PerformanceResult, PerformanceResult>();
+			CreateMap<WebCrawler.Model.PerformanceTest, PerformanceTestInfo>();
 		}
 	}
 }
