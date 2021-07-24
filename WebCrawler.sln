@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawlerWebMVC", "WebCraw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Service", "WebCrawler.Service\WebCrawler.Service.csproj", "{763B3D33-ADF6-4E8B-83C4-BCFBF473E5AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrawlerWebAPI", "WebCrawlerWebAPI\WebCrawlerWebAPI.csproj", "{CBC41FC5-71BB-47F5-925A-99329222F825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawlerWebAPI", "WebCrawlerWebAPI\WebCrawlerWebAPI.csproj", "{CBC41FC5-71BB-47F5-925A-99329222F825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
