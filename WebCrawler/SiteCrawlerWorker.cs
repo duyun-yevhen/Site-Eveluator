@@ -22,7 +22,7 @@ namespace WebCrawler.Logic
 		public  IEnumerable<PerformanceResult> DoWork(Uri url, int querydDelay = 500)
 		{
 			IEnumerable<PerformanceResult> results = GetAllLinks(url);
-			RequestUrlsForSetResponseTimes(results, querydDelay, 1000);
+			RequestUrlsForSetResponseTimes(results, 100, 1000);
 
 			return results;
 		}
@@ -30,8 +30,26 @@ namespace WebCrawler.Logic
 		private IEnumerable<PerformanceResult> GetAllLinks(Uri url)
 		{
 			var sitemapLinks = _sitemapCrawler.GetSitesFromSitemap(_sitemapCrawler.GetSitemaps(new Uri("http://" + url.Host)));
-			var pageLinks = _sitepageCrawler.FindPageChildrenLinks(url);
+			var pageLinks = new Queue<Uri>();
+
+			Queue<Uri> queuedLinks = new Queue<Uri>();
+			queuedLinks.Enqueue(url);
+			
+
 			var result = new List<PerformanceResult>();
+
+			while (queuedLinks.Count > 0)
+			{
+				var links = _sitepageCrawler.FindPageChildrenLinks(queuedLinks.Dequeue());
+				var uniqueLinks = links.Where(_ => pageLinks.Contains(_) == false);
+
+				foreach(var link in uniqueLinks)
+                {
+					queuedLinks.Enqueue(link);
+					pageLinks.Enqueue(link);
+				}
+				
+			}
 
 			foreach (var link in sitemapLinks.Union(pageLinks))
 			{

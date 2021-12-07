@@ -8,6 +8,8 @@ namespace WebCrawler.Logic
 		public virtual IEnumerable<Uri> ParseAllChildrenLinks(string site, Uri siteUrl)
 		{
 			List<Uri> urlList = new List<Uri>();
+			if (site is null)
+				return urlList;
 			int pos = 0;
 
 			while (true)
